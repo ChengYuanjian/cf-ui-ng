@@ -1,0 +1,35 @@
+<div ng-controller="loadMenuCtl">
+  <ul class="nav" style="padding-top:10px;">
+    <li style="padding-left:4px;">
+      <select class="{{app.settings.asideColor}} hidden-folded" style="vertical-align:middle;width: 146px;height: 40px ;
+              border-bottom: 2px solid rgba(55, 61, 65, 0.15);
+              border-top: 2px solid rgba(55, 61, 65, 0.15);
+              border-left: 2px solid rgba(55, 61, 65, 0.15);
+              border-right: 2px solid rgba(55, 61, 65, 0.15)"
+              data-ng-options="org.name for org in organizations"
+              ng-model="selected_org"  ng-change="getTreeDataByOrg(selected_org)">
+        <option value="">选择组织</option>
+      </select>
+      <button class="{{app.settings.asideColor}} btn btn-md hidden-folded" style="border-radius: 0px;vertical-align:middle;width: 42px;height: 40px ;
+                     border-bottom: 2px solid rgba(55, 61, 65, 0.15);
+                     border-top: 2px solid rgba(55, 61, 65, 0.15);
+                     border-left: 2px solid rgba(55, 61, 65, 0.15);
+                     border-right: 2px solid rgba(55, 61, 65, 0.15)"
+                     ng-click="create()"><i class="fa fa-plus icon text-info-dker"></i></button>
+    </li>
+    <!--<input id="filter" placeholder="查找组织空间"  type="text" ng-model="textToSelect"/>-->
+    <abn-tree tree-data="mydata"  class="hidden-folded" on-select="my_tree_handler(branch)" select-text="textToSelect"></abn-tree>
+    <li ui-sref-active="active">
+      <a ui-sref="app.marketplace.list">
+        <i class="glyphicon glyphicon-random icon text-info-dker"></i>
+        <span class="font-bold">服务市场</span>
+      </a>
+    </li>
+    <li ui-sref-active="active">
+      <a ng-click="chgPassword()">
+        <i class="glyphicon glyphicon-retweet icon text-info-dker"></i>
+        <span class="font-bold">密码修改</span>
+      </a>
+    </li>
+  </ul>
+</div>

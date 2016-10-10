@@ -1,0 +1,144 @@
+<div class="modal-header">
+  <h3 class="modal-title">创建应用</h3>
+</div>
+<div class="modal-body">
+  <form class="bs-example form-horizontal" name = 'myForm'>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-lg-5 control-label">应用名称：</label>
+          <div class="col-lg-7">
+            <input type="text" class="form-control" name="spacename" ng-model="app.name" placeholder="应用名称,必填" required>
+                      <span class="glyphicon glyphicon-ok form-control-feedback"
+                            ng-show="myForm.spacename.$dirty && myForm.spacename.$valid"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-5 control-label">应用大小：</label>
+          <label class="col-lg-2 control-label">
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="s" ng-click="isActive('s')">
+            小
+          </label>
+          <label class="col-lg-2 control-label">
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="m" ng-click="isActive('m')">
+            中
+          </label>
+          <label class="col-lg-2 control-label">
+            <input type="radio" name="optionsRadios" id="optionsRadios3" value="l" ng-click="isActive('l')">
+            大
+          </label>
+          <div class="col-lg-1"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-5 control-label">内存资源(M)：</label>
+          <div class="col-lg-7">
+            <input type="number" name="memory" class="form-control" placeholder="内存资源,必填" ng-model="quota.memory" required>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+             ng-show="myForm.memory.$dirty && myForm.memory.$valid"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-5 control-label">磁盘资源(M)：</label>
+          <div class="col-lg-7">
+            <input type="number" name="disk_quota" class="form-control" placeholder="内存配额,必填" ng-model="quota.disk_quota" required>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="myForm.disk_quota.$dirty && myForm.disk_quota.$valid"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-5 control-label">实例数：</label>
+          <div class="col-lg-7">
+            <input type="number" name="instances" class="form-control" placeholder="内存配额,必填" ng-model="quota.instances" required>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="myForm.instances.$dirty && myForm.instances.$valid"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-5 control-label">路由：</label>
+          <div class="col-lg-7">
+            <input type="text" class="form-control" name="routes" ng-model="route.host" placeholder="路由名称,必填" required>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="myForm.routes.$dirty && myForm.routes.$valid"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-lg-5 control-label">应用类型：</label>
+          <div class="col-lg-7">
+            <select class="form-control m-b" name="build_pack"  data-ng-options="build as build.name for build in buildpacks"
+                    ng-model="buildpack"  >
+            </select>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="myForm.build_pack.$dirty && myForm.build_pack.$valid"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-5 control-label">组织：</label>
+          <div class="col-lg-7">
+            <select class="form-control m-b" name="org_pack"  data-ng-options="org as org.name for org in organizations"
+                    ng-model="organization"  ng-change="getSpacesByOrganization(organization)">
+            </select>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="myForm.org_pack.$dirty && myForm.org_pack.$valid"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-5 control-label">空间：</label>
+          <div class="col-lg-7">
+            <select class="form-control m-b" name="spa_pack"  data-ng-options="spa as spa.name for spa in spaces"
+                    ng-model="space"  >
+            </select>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="myForm.spa_pack.$dirty && myForm.spa_pack.$valid"></span>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-lg-5 control-label">域名：</label>
+          <div class="col-lg-7">
+            <select class="form-control m-b" name="dom_pack"  data-ng-options="dom as dom.name for dom in domains"
+                    ng-model="domain"  >
+            </select>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="myForm.dom_pack.$dirty && myForm.dom_pack.$valid"></span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- <div class="line line-dashed b-b line-lg pull-in"></div> -->
+<!-- flow-name="app_file.flow"  -->
+    <div flow-init flow-files-added="processFiles($files)">
+      <div class="drop" flow-drop="" ng-class="dropClass" style="padding: 15px;border: 2px #23b7e5 dashed;border-radius: 5px;line-height: 34px;">
+        <span class="btn btn-default" flow-btn="" >上传文件<input type="file"  multiple="multiple" style="visibility: hidden; position: absolute;"></span>
+        <span class="btn btn-default" flow-btn="" flow-directory="" ng-show="$flow.supportDirectory">上传目录<input type="file"  name ="file_name"  multiple="multiple" webkitdirectory="webkitdirectory" style="visibility: hidden; position: absolute;"></span>
+        <b>或者</b>
+        拖拽你的文件到这里
+        <span class="glyphicon glyphicon-ok form-control-feedback"
+              ng-show="myForm.app_file.$dirty && myForm.app_file.$valid"></span>
+      </div>
+      <table>
+        <tr ng-repeat="file in $flow.files">
+          <td>文件{{$index+1}}</td>
+          <td>:{{file.relativePath}}&nbsp;&nbsp;&nbsp;</td>
+          <td>大小:{{file.size}}</td>
+        </tr>
+      </table>
+    </div>
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-info" ng-click="addapp()" ng-disabled="myForm.$invalid">确定</button>
+  <button class="btn btn-default" ng-click="cancel()">取消</button>
+</div>

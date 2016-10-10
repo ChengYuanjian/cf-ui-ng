@@ -1,0 +1,58 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h4">
+        <a ui-sref="app.org_manage.list">组织管理</a>
+    </h1>
+</div>
+
+<div class="wrapper-md" ng-controller="OrganizationPreviewCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            组织列表
+        </div>
+        <div class="panel-body b-b b-light">
+            <div class="col-sm-5">
+                <button type="submit" class="btn btn-sm btn-info" ng-click="addOrganization()">+创建</button>
+                <button type="submit" class="btn btn-sm btn-danger" ng-click="deleteOrganization()">－删除</button>
+                <button type="submit" class="btn btn-sm btn-warning" ng-click="refresh()">刷新</button>
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-3">
+                <input placeholder="查找组织" class="input-sm form-control" type="text" ng-model="filter.filterText"/>
+            </div>
+        </div>
+        <div ui-grid="gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+        <!--<p>Current page: {{ gridApi.pagination.getPage() }} of {{ gridApi.pagination.getTotalPages() }}</p>-->
+        <!--<button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">-->
+        <!--previous page-->
+        <!--</button>-->
+        <!--<button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">-->
+        <!--next page-->
+        <!--</button>-->
+        <!--<table st-table="organizations" class="table table-striped">-->
+        <!--<thead>-->
+        <!--<tr>-->
+        <!--<th st-ratio="20" st-sort="name">组织名称</th>-->
+        <!--<th st-ratio="20" st-sort="status">组织状态</th>-->
+        <!--<th st-ratio="20" st-sort="created_at">创建时间</th>-->
+        <!--<th st-ratio="20" st-sort="updated_at">更新时间</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr ng-repeat="row in organizations">-->
+        <!--<td st-ratio="20"><a ui-sref="app.org_manage.detail({guid:row.id})">{{row.name}}</a></td>-->
+        <!--<td st-ratio="20">{{row.status}}</td>-->
+        <!--<td st-ratio="20">{{row.created_at}}</td>-->
+        <!--<td st-ratio="20">{{row.updated_at}}</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+        <!--<tfoot>-->
+        <!--<tr>-->
+        <!--<td colspan="4" class="text-center">-->
+        <!--<div st-items-by-page="5" st-pagination="" st-displayed-pages="5"></div>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--</tfoot>-->
+        <!--</table>-->
+    </div>
+</div>

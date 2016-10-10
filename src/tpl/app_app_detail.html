@@ -1,0 +1,245 @@
+<div class="bg-light lter b-b wrapper-md" ng-controller="Appforname">
+	<h1 class="m-n font-thin h4" style="vertical-align: middle;">
+		<a ng-click="click()">{{space_name}}</a>
+		<i class="glyphicon glyphicon-chevron-right"></i>
+		{{app_name}}
+	</h1>
+</div>
+
+<div>
+	<tabset class="tab-container">
+		<tab ng-controller="AppDetailCtrl"> <tab-heading>应用信息</tab-heading>
+			<div class='col-sm-6'>
+				<form class="form-horizontal form-validation ng-pristine ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength ng-invalid-validator ng-invalid-b ng-invalid-a ng-valid-pattern">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<strong>应用设置</strong>
+						</div>
+						<div class="panel-body">
+							<form class="bs-example form-horizontal" name="myForm" novalidate>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">应用名称:</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required" placeholder="应用名称" ng-model="name" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">实例数:</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-minlength" placeholder="5" ng-model="instances" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label">内存配额(M):</label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" placeholder="1024M" ng-model="memory" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label">磁盘配额(M):</label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" placeholder="2G" ng-model="disk_quota" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">所属组织:</label>
+									<div class="col-sm-9">
+										<select class="form-control m-t ng-pristine ng-untouched ng-invalid ng-invalid-required"
+												data-ng-options="org as org.name for org in organizations"
+												ng-model="selected_org"  ng-change="getSpacesByOrg(selected_org)">
+											<option value="">{{currentOrg}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">所属空间:</label>
+									<div class="col-sm-9">
+										<select class="form-control m-t ng-pristine ng-untouched ng-invalid ng-invalid-required"
+												data-ng-options="space as space.name for space in spaces"
+												ng-model="selected_space">
+											<option value="">{{currentSpace}}</option>
+										</select>
+									</div>
+								</div>
+							</form>
+						</div>
+						<footer class="panel-footer text-right bg-light lter">
+							<button type="submit" class="btn btn-info" ng-click="appUpdate()"  ng-disabled="myForm.$invalid">确认</button>
+							<button type="submit" class="btn btn-default" ng-click="reset()">取消</button>
+						</footer>
+					</div>
+				</form>
+			</div>
+
+			<div class="row">
+				<div class='col-sm-6'>
+					<div class="panel panel-default">
+						<div class="panel-body text-center">
+							<div class="row">
+								<div class="col-sm-2"></div>
+								<div class='col-sm-5'>
+									<div id ="memRate" ui-jq="easyPieChart"  ui-refresh="sumMemRate" ui-options="{
+													percent: sumMemRate,
+													lineWidth: 10,
+													trackColor: '#e8eff0',
+													barColor: '#23b7e5',
+													scaleColor: false,
+													size: 158,
+													rotate: 90,
+													lineCap: 'butt'
+													}"
+										 class="easyPieChart" style="width: 158px; height: 158px; line-height: 158px;">
+									<div>
+										<span class="h2 m-l-sm step" ng-bind="sumMemRate"></span>%
+										<div class="text text-sm">内存</div>
+									</div>
+									<canvas width="316" height="316" style="width: 158px; height: 158px;"></canvas>
+								</div>
+							</div>
+							<div class='col-sm-5'>
+								<div id ="diskRate" ui-jq="easyPieChart" ui-refresh="sumDiskRate" ui-options="{
+													percent: sumDiskRate,
+													lineWidth: 10,
+													trackColor: '#e8eff0',
+													barColor: '#23b7e5',
+													scaleColor: false,
+													size: 158,
+													rotate: 90,
+													lineCap: 'butt'
+													}"
+									 class="easyPieChart" style="width: 158px; height: 158px; line-height: 158px;">
+								<div>
+									<span class="h2 m-l-sm step" ng-bind="sumDiskRate"></span>%
+									<div class="text text-sm">磁盘</div>
+								</div>
+								<canvas width="316" height="316" style="width: 158px; height: 158px;"></canvas>
+							</div>
+						</div>
+					</div>
+					<div class="line line-dashed b-b line-lg pull-in"></div>
+					<div class="row">
+						<div class='col-sm-2'></div>
+						<div class='col-sm-4'>
+							<h4>应用状态</h4>
+						</div>
+						<div class='col-sm-4'>
+							<h5>{{state}}</h5>
+						</div>
+						<div class='col-sm-2'></div>
+					</div>
+					<!--<div class="row">-->
+						<!--<div class='col-sm-2'></div>-->
+						<!--<div class='col-sm-4'>-->
+							<!--<h4>应用版本</h4>-->
+						<!--</div>-->
+						<!--<div class='col-sm-4'>-->
+							<!--<h5>v0.0.1</h5>-->
+						<!--</div>-->
+						<!--<div class='col-sm-2'></div>-->
+					<!--</div>-->
+					<div class="row">
+						<div class='col-sm-2'></div>
+						<div class='col-sm-4'>
+							<h4>创建时间</h4>
+						</div>
+						<div class='col-sm-4'>
+							<h5>{{appCreateTime}}</h5>
+						</div>
+						<div class='col-sm-2'></div>
+					</div>
+					<div class="row">
+						<div class='col-sm-2'></div>
+						<div class='col-sm-4'>
+							<h4>更新时间</h4>
+						</div>
+						<div class='col-sm-4'>
+							<h5>{{appUpdateTime}}</h5>
+						</div>
+						<div class='col-sm-2'></div>
+					</div>
+					<div class="row">
+						<div class='col-sm-2'></div>
+						<div class='col-sm-4'>
+							<h4>运行时间</h4>
+						</div>
+						<div class='col-sm-4'>
+							<h5>{{maxUptime}}</h5>
+						</div>
+						<div class='col-sm-2'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</tab>
+
+<tab ng-controller="appInstanceInfoCtl" ng-click="getAppInstances()">
+	<tab-heading>实例信息</tab-heading>
+	<div class="panel panel-default">
+		<div class="panel-body b-b b-light">
+			<div class="col-sm-5">
+				<button type="submit" class="btn btn-sm btn-warning" ng-click="getAppInstances()">刷新</button>
+			</div>
+		</div>
+		<div ui-grid="instanceGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+	</div>
+</tab>
+
+<tab ng-controller="appServiceInstanceCtl" >
+			<tab-heading>服务信息</tab-heading>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body b-b b-light">
+				<div class="col-sm-4">
+					<button type="submit" class="btn btn-sm btn-info" ng-model="createService"  ng-click="createService()">新增</button>
+					<button type="submit" class="btn btn-sm btn-danger" ng-model="deleteService"  ng-click="deleteService()">删除</button>
+				</div>
+				<div class="col-sm-4">
+				</div>
+				<div class="col-sm-4">
+					<input placeholder="查找服务" class="input-sm form-control" type="text"
+						   ng-model="filter.filterBindedUser"/>    <!--/需要修改-->
+				</div>
+			</div>
+			<div ui-grid="serviceGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+		</div>
+	</div>
+		</tab>
+
+<tab ng-controller="appEnvInfoCtl">
+	<tab-heading>环境变量</tab-heading>
+	<div class="panel panel-default">
+		<div class="panel-body b-b b-light">
+			<div class="col-sm-5">
+				<button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
+				<button type="submit" class="btn btn-sm btn-danger" ng-click="delete()">-删除</button>
+				<button type="submit" class="btn btn-sm btn-warning" ng-click="refresh()">刷新</button>
+			</div>
+			<div class="col-sm-4"></div>
+			<div class="col-sm-3">
+				<input placeholder="查找环境变量" class="input-sm form-control" type="text" ng-model="filter.filterEnv"/>
+			</div>
+		</div>
+		<div ui-grid="appEnvGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+	</div>
+</tab>
+
+<tab ng-controller="appRouterGridCtl">
+	<tab-heading>路由信息</tab-heading>
+	<div class="panel panel-default">
+		<div class="panel-body b-b b-light">
+			<div class="col-sm-5">
+				<button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
+				<button type="submit" class="btn btn-sm btn-danger" ng-click="delete()">-删除</button>
+                <button type="submit" class="btn btn-sm btn-warning" ng-click="refresh()">刷新</button>
+			</div>
+			<div class="col-sm-4"></div>
+			<div class="col-sm-3">
+				<input placeholder="查找路由" class="input-sm form-control" type="text" ng-model="filter.filterRouter"/>
+			</div>
+		</div>
+		<div ui-grid="appRouterGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+	</div>
+</tab>
+</tabset>
+</div>

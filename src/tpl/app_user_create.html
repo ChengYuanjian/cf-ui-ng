@@ -1,0 +1,92 @@
+<div class="modal-header">
+    <h3 class="modal-title">创建用户</h3>
+</div>
+<div class="modal-body" > <!--ng-controller="userCrudCtl"-->
+  <span us-spinner="{color: '#16aad8', radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+  <form class="bs-example form-horizontal" name="myForm">
+    <div class="form-group">
+      <label class="col-lg-3 control-label">名称：</label>
+      <div class="col-lg-9">
+        <input class="form-control" placeholder="名称" ng-model="username" name="username" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback"
+              ng-show="myForm.username.$dirty && myForm.username.$valid"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">密码：</label>
+      <div class="col-lg-9">
+        <input type="password" class="form-control" placeholder="密码" ng-model="password" name="password" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback"
+              ng-show="myForm.password.$dirty && myForm.password.$valid"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">确认密码：</label>
+      <div class="col-lg-9">
+        <input type="password" class="form-control" placeholder="确认密码" ng-model="passwordAgain" name="passwordAgain" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback"
+              ng-show="myForm.passwordAgain.$dirty && myForm.passwordAgain.$valid"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">邮箱：</label>
+      <div class="col-lg-9">
+        <input class="form-control" placeholder="user@example.com" ng-model="email" name="email" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback"
+              ng-show="myForm.email.$dirty && myForm.email.$valid"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">手机：</label>
+      <div class="col-lg-9">
+        <input class="form-control" placeholder="手机号码" ng-model="phone" name="phone">
+        <span class="glyphicon glyphicon-ok form-control-feedback"
+              ng-show="myForm.phone.$dirty && myForm.phone.$valid"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">组织：</label>
+      <div class="col-lg-9">
+        <select class="form-control input-sm w-sm inline m-r" data-ng-options="org as org.name for org in organizations"
+                ng-model="selected_org" ng-change="getSpacesByOrg(selected_org)" name="orgname" required>
+          <option value="">选择组织</option>
+          <span class="glyphicon glyphicon-ok form-control-feedback"
+                ng-show="myForm.orgname.$dirty && myForm.orgname.$valid"></span>
+        </select>
+        <select class="form-control input-sm w-sm inline m-r" ng-model="org_role" name="orgrole" required>
+          <option value="">选择组织角色</option>
+          <option value="1">组织管理员</option>
+          <option value="2">组织审计员</option>
+          <option value="3">组织计费员</option>
+          <option value="4">普通用户</option>
+          <span class="glyphicon glyphicon-ok form-control-feedback"
+                ng-show="myForm.orgrole.$dirty && myForm.orgrole.$valid"></span>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">空间(可选)：</label>
+      <div class="col-lg-9">
+        <select class="form-control input-sm w-sm inline m-r" data-ng-options="space as space.name for space in spaces"
+                ng-model="selected_space" ng-change="getCurrSpa(selected_space)" name="spacename">
+          <option value="">选择空间</option>
+          <span class="glyphicon glyphicon-ok form-control-feedback"
+                ng-show="myForm.spacename.$dirty && myForm.spacename.$valid"></span>
+        </select>
+        <select class="form-control input-sm w-sm inline m-r" ng-model="spa_role" name="spacerole">
+          <option value="">选择空间角色</option>
+          <option value="1">空间管理员</option>
+          <option value="2">空间审计员</option>
+          <option value="3">空间开发员</option>
+          <span class="glyphicon glyphicon-ok form-control-feedback"
+                ng-show="myForm.spacerole.$dirty && myForm.spacerole.$valid"></span>
+        </select>
+      </div>
+    </div>
+  </form>
+
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="ok()"  ng-disabled="myForm.$invalid">创建</button>
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+  </div>
+</div>

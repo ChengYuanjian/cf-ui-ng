@@ -1,0 +1,162 @@
+<div class="bg-light lter b-b wrapper-md" ng-controller="UserShowName">
+    <h1 class="m-n font-thin h4" style="vertical-align: middle;">
+        <a ui-sref="app.user_manage.list">用户管理</a>
+        <i class="glyphicon glyphicon-chevron-right"></i>
+        {{username}}
+    </h1>
+</div>
+
+<div ng-controller="eventCtl">
+<div >
+    <tabset class="tab-container">
+        <tab ng-controller="UserBaseInfoCtl">
+            <tab-heading> 用户基本信息</tab-heading>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading font-bold">用户基本信息</div>
+                        <div class="panel-body">
+                            <form class="bs-example form-horizontal" name="myForm" novalidate>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">用户名：</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="username" ng-model="username"
+                                               ng-disabled="false">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">邮箱：</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="email" ng-model="email"
+                                               ng-disabled="false">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">手机：</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="phone" ng-model="phone"
+                                               ng-disabled="false">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">创建时间：</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="createtime" ng-model="createtime"
+                                               ng-disabled="true">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">更新时间：</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="updatetime" ng-model="updatetime"
+                                               ng-disabled="true">
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <footer class="panel-footer text-right bg-light lter">
+                            <button type="submit" class="btn btn-info" ng-click="updateUser()"
+                                    ng-disabled="myForm.$invalid">确认
+                            </button>
+                            <button type="submit" class="btn btn-default" ng-click="reset()">取消</button>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </tab>
+
+        <tab ng-controller="UserOrgInfoCtl">
+            <tab-heading> 用户组织角色</tab-heading>
+            <div class="panel panel-default">
+                <div class="panel-body b-b b-light">
+                    <div class="col-sm-5">
+                        <button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
+                        <button type="submit" class="btn btn-sm btn-danger" ng-click="delete()">－删除</button>
+                        <button type="submit" class="btn btn-sm btn-warning" ng-click="refreshOrgInfo()">刷新</button>
+                    </div>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-3">
+                        <input placeholder="查找组织" class="input-sm form-control" type="text" ng-model="filter.filterOrg"/>
+                    </div>
+                </div>
+                <div ui-grid="orgGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+            </div>
+        </tab>
+
+        <tab ng-controller="UserSpaceInfoCtl">
+            <tab-heading> 用户空间角色</tab-heading>
+            <div class="panel panel-default">
+                <div class="panel-body b-b b-light">
+                    <div class="col-sm-5">
+                        <button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
+                        <button type="submit" class="btn btn-sm btn-danger" ng-click="delete()">－删除</button>
+                        <button type="submit" class="btn btn-sm btn-warning" ng-click="refreshSpaceInfo()">刷新</button>
+                    </div>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-3">
+                        <input placeholder="查找空间" class="input-sm form-control" type="text" ng-model="filter.filterSpace"/>
+                    </div>
+                </div>
+                <div ui-grid="spaceGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+            </div>
+        </tab>
+
+        <tab ng-controller="UserPaaswordChangeCtl">
+            <tab-heading> 用户密码修改</tab-heading>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading font-bold">用户密码修改</div>
+                        <div class="panel-body">
+                            <form class="bs-example form-horizontal" name="myForm" novalidate>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">用户名：</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="username"
+                                               ng-disabled="true" ng-model="username">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">原始密码：</label>
+                                    <div class="col-md-8">
+                                        <input type="password" class="form-control" name="oldpassword" ng-model="oldpassword">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">新密码：</label>
+                                    <div class="col-md-8">
+                                        <input type="password" class="form-control" name="newpassword" ng-model="newpassword">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">新密码确认：</label>
+                                    <div class="col-md-8">
+                                        <input type="password" class="form-control" name="newpasswordconfirm" ng-model="newpasswordconfirm">
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <footer class="panel-footer text-right bg-light lter">
+                        <button type="submit" class="btn btn-info" ng-click="updateUserPassword()"
+                        ng-disabled="myForm.$invalid">确认
+                        </button>
+                        <button type="submit" class="btn btn-default" ng-click="reset()">取消</button>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </tab>
+
+    </tabset>
+</div>
+
+</div>

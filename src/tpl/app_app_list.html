@@ -1,0 +1,95 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h4">应用管理</h1>
+</div>
+
+<div class="wrapper-md" ng-controller="AppListCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            应用列表
+        </div>
+        <div class="panel-body b-b b-light">
+            <div class="col-md-4" ng-controller="AppCreateCtrl">
+                <button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
+                <!--<button type="submit" class="btn btn-sm btn-success" ng-click="update()">编辑</button>-->
+                <button type="submit" class="btn btn-sm btn-danger" ng-click="appdelete()">－删除</button>
+                <button type="submit" class="btn btn-sm btn-warning" ng-click="getapp()">刷新</button>
+                <button type="submit" class="btn btn-sm btn-primary"  ng-click="appstart()">启动</button>
+                <button type="submit" class="btn btn-sm btn-default" ng-click="appstop()">停止</button>
+            </div>
+
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <select placeholder="选择组织" class="form-control input-sm w-sm inline m-r" data-ng-options="org as org.name for org in organizations"
+                                ng-model="selected_org"  ng-change="getAppsByOrgParams(selected_org)">
+                            <option value="">选择组织</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select placeholder="选择空间" class="form-control input-sm w-sm inline m-r" data-ng-options="space as space.name for space in spaces"
+                                ng-model="selected_space"  ng-change="getAppsBySpaceParams(selected_space)">
+                            <option value="">选择空间</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="filter" placeholder="查找应用" type="text" class="form-control input-sm w-sm inline m-r" ng-model="filter.filterText"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ui-grid="gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+        <!--<div>-->
+            <!--<table class="table m-b-none" ui-jq="footable" data-filter="#filter" data-page-size="5">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<th>-->
+                        <!--&nbsp;-->
+                    <!--</th>-->
+                    <!--<th data-toggle="true">-->
+                        <!--应用名称-->
+                    <!--</th>-->
+                    <!--<th>-->
+                        <!--组织-->
+                    <!--</th>-->
+                    <!--<th>-->
+                        <!--空间-->
+                    <!--</th>-->
+                    <!--<th>-->
+                        <!--实例数-->
+                    <!--</th>-->
+                    <!--<th data-hide="phone,tablet">-->
+                        <!--创建时间-->
+                    <!--</th>-->
+                    <!--&lt;!&ndash;<th data-hide="phone,tablet" data-name="Date Of Birth">&ndash;&gt;-->
+                        <!--&lt;!&ndash;更新时间&ndash;&gt;-->
+                    <!--&lt;!&ndash;</th>&ndash;&gt;-->
+                    <!--<th data-hide="phone,tablet">-->
+                        <!--状态-->
+                    <!--</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr ng-repeat="x in datas">-->
+                    <!--<td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>-->
+                    <!--<td><a ui-sref="app.app_manage.detail({guid:x.guid,space_guid:x.space_guid,name:x.name,org:x.org,space:x.space})">{{x.name}}</a></td>-->
+                    <!--<td>{{x.org}}</td>-->
+                    <!--<td>{{x.space}}</td>-->
+                    <!--<td>{{x.instance}}</td>-->
+                    <!--<td>{{x.createtime}}</td>-->
+                    <!--&lt;!&ndash;<td>{{x.updatetime}}</td>&ndash;&gt;-->
+                    <!--<td>{{x.run_status}}</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+                <!--<tfoot class="hide-if-no-paging">-->
+                <!--<tr>-->
+                    <!--<td colspan="5" class="text-right">-->
+                        <!--<ul class="pagination"></ul>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--</tfoot>-->
+            <!--</table>-->
+        <!--</div>-->
+    </div>
+</div>

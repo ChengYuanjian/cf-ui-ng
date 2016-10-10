@@ -1,0 +1,61 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">[{{orgName}}]配额扩容</h3>
+    </div>
+    <div class="modal-body">
+        <form class="bs-example form-horizontal" name="myForm" novalidate>
+            <div class="form-group">
+                <label class="col-md-3 control-label">服务配额：</label>
+                <div class="col-md-9">
+                    <input type="number" name="total_services" class="form-control" placeholder="服务配额，-1表示无限制,必填" ng-model="quota.total_services" required>
+                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                          ng-show="myForm.total_services.$dirty && myForm.total_services.$valid"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">路由配额：</label>
+                <div class="col-md-9">
+                    <input type="number" name="total_routes" class="form-control" placeholder="路由配额，-1表示无限制,必填" ng-model="quota.total_routes" required>
+                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                          ng-show="myForm.total_routes.$dirty && myForm.total_routes.$valid"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">域名配额：</label>
+                <div class="col-md-9">
+                    <input type="number" name="total_private_domains" class="form-control" placeholder="域名配额，-1表示无限制" ng-model="quota.total_private_domains">
+                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                          ng-show="myForm.total_private_domains.$dirty && myForm.total_private_domains.$valid"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">内存配额(M)：</label>
+                <div class="col-md-9">
+                    <input type="number" name="memory_limit" class="form-control" placeholder="内存配额,必填" ng-model="quota.memory_limit" required>
+                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                          ng-show="myForm.memory_limit.$dirty && myForm.memory_limit.$valid"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">实例内存配额(M)：</label>
+                <div class="col-md-9">
+                    <input type="number" name="instance_memory_limit" class="form-control" placeholder="实例内存配额，-1表示无限制,必填" ng-model="quota.instance_memory_limit" required>
+                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                          ng-show="myForm.instance_memory_limit.$dirty && myForm.instance_memory_limit.$valid"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">实例配额：</label>
+                <div class="col-md-9">
+                    <input type="number" name="app_instance_limit" class="form-control" placeholder="实例配额，-1表示无限制" ng-model="quota.app_instance_limit">
+                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                          ng-show="myForm.app_instance_limit.$dirty && myForm.app_instance_limit.$valid"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" ng-show="isorgmanager">
+        <button class="btn btn-info" ng-click="ok()" ng-disabled="myForm.$invalid">确定</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</div>

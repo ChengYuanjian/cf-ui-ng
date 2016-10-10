@@ -1,0 +1,109 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">概览</h1>
+</div>
+<div class="wrapper-md">
+  <div ng-controller="FlotChartDemoCtrl">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">应用状态</div>
+          <div class="panel-body">
+            <div ui-jq="plot" ui-options="
+              {{d3}},
+              {
+                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
+                colors: ['{{app.color.success}}','{{app.color.danger}}','{{app.color.warning}}'],
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%s: %p.0%' }
+              }
+            " style="height:240px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">组织应用排名</div>
+          <div class="panel-body">
+            <div ui-jq="plot" ui-options="
+              [
+                { data: {{d0_1}}, label: '组织应用数', bars: { show: true, barWidth: 0.4, fillColor: { colors: [{ opacity: 0.2 }, { opacity: 0.4}] } } },
+              ],
+              {
+                colors: [ '{{app.color.info}}','{{app.color.warning}}' ],
+                series: { shadowSize: 2 },
+                xaxis:{
+                  font: { color: '#ccc' },
+                  position: 'bottom',
+                  ticks: [
+                     [ 0, '信访局' ], [ 1, '国土厅' ], [ 2, '教育厅' ], [ 3, '扶贫办' ], [ 4, '文化厅' ], [ 5, '统计局' ], [ 6, '安监局' ], [ 7, '工商联' ], [ 8, '国资委' ], [ 9, '农科院' ]
+                  ]
+                },
+                yaxis:{ font: { color: '#ccc' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%s of %x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }
+              }
+            " style="height:240px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">组织内存排名</div>
+          <div class="panel-body">
+            <div ui-jq="plot" ui-options="
+              [
+                { data: {{d0_1}}, label: '组织内存', bars: { show: true, barWidth: 0.4, fillColor: { colors: [{ opacity: 0.2 }, { opacity: 0.4}] } } },
+              ],
+              {
+                colors: [ '{{app.color.sucess}}'],
+                series: { shadowSize: 2 },
+                xaxis:{
+                  font: { color: '#ccc' },
+                  position: 'bottom',
+                  ticks: [
+                     [ 0, '信访局' ], [ 1, '国土厅' ], [ 2, '教育厅' ], [ 3, '扶贫办' ], [ 4, '文化厅' ], [ 5, '统计局' ], [ 6, '安监局' ], [ 7, '工商联' ], [ 8, '国资委' ], [ 9, '农科院' ]
+                  ]
+                },
+                yaxis:{ font: { color: '#ccc' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%s of %x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }
+              }
+            " style="height:240px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">应用实例数排名</div>
+          <div class="panel-body">
+            <div ui-jq="plot" ui-options="
+              [
+                { data: {{d0_1}}, label: '组织内存', bars: { show: true, barWidth: 0.4, fillColor: { colors: [{ opacity: 0.2 }, { opacity: 0.4}] } } },
+              ],
+              {
+                colors: [ '{{app.color.primary}}'],
+                series: { shadowSize: 2 },
+                xaxis:{
+                  font: { color: '#ccc' },
+                  position: 'bottom',
+                  ticks: [
+                     [ 0, '网络发票' ], [ 1, '家庭收入核对系统' ], [ 2, '湖北文艺信息' ], [ 3, '普查系统' ], [ 4, '森林资源一张图' ], [ 5, '办公自动化OA' ], [ 6, '行政审批系统' ], [ 7, '婚姻登记系统' ], [ 8, '优抚信息系统' ], [ 9, '网上申报系统' ]
+                  ]
+                },
+                yaxis:{ font: { color: '#ccc' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%s of %x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }
+              }
+            " style="height:240px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,153 @@
+<div ng-controller="OrganizationDetailsBaseCtrl">
+    <div class="bg-light lter b-b wrapper-sm">
+        <h1 class="m-n font-thin h4" style="vertical-align: middle;">
+            组织详情
+            <i class="glyphicon glyphicon-chevron-right"></i>
+            {{name}}
+        </h1>
+    </div>
+
+    <div class="row wrapper-sm" ng-controller="OrganizationDetailsCtrl">
+        <div class="col-md-4">
+            <h2>{{name}}</h2>
+        </div>
+        <div class="col-md-6">
+            <div class="panel-heading font-bold">
+                <span class="{{spanClass}}">{{sumMemRate}}%(已用{{memory_usage_in_mb}}MB,共{{quota.memory_limit}}MB)</span>
+                <span>内存配额</span>
+            </div>
+            <div class="progress progress-xs">
+                <div class="{{progressClass}}" data-toggle="tooltip"
+                     ng-style="progressStyle"></div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel-heading font-bold"></div>
+            <button type="submit" class="btn btn-info" ng-click="extand()">组织配额</button>
+        </div>
+    </div>
+
+
+    <div class="wrapper-sm">
+        <tabset class="tab-container">
+            <tab ng-controller="OrganizationDetailsCtrl1">
+                <tab-heading>空间信息
+                </tab-heading>
+                <div class="row wrapper-sm">
+                    <div ng-repeat="space in spaces" class="col-md-4">
+                        <a ui-sref="app.space_manage.detail({guid:space.guid,spacename:space.name,orgGuid:id})">
+                            <div class="panel panel-default">
+                                <div class="panel-heading font-bold">
+                                    {{space.name}}(内存:{{space.memory}}MB)
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-6">
+                                            <span class="text-muted text-xs">应用</span><br>
+                                            <span class="h1 text-info font-thin h1">{{space.nrOfStartedApps+space.nrOfStoppedApps+space.nrOfCrashedApps}}</span>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="m-b"><span title="STARTED"
+                                                                   class="label text-base bg-info pos-rlt m-r">{{space.nrOfStartedApps}}</span>
+                                            </div>
+                                            <div class="m-b"><span title="STOPPED"
+                                                                   class="label text-base bg-warning pos-rlt m-r">{{space.nrOfStoppedApps}}</span>
+                                            </div>
+                                            <div class="m-b"><span title="CRASHED"
+                                                                   class="label text-base bg-danger pos-rlt m-r">{{space.nrOfCrashedApps}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="text-muted text-xs">服务</span><br>
+                                        <span class="h1 text-info font-thin h1">{{space.nrOfServices}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div ng-show="isorgmanager" class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading font-bold">
+                                新增空间
+                            </div>
+                            <div class="panel-body text-center" style="height: 135px;padding-top:40px">
+                                <span ng-click="createSpace()"><a class="h1 text-info font-thin h1">+新增空间</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+            <tab ng-controller="OrganizationDetailsCtrl2">
+                <tab-heading>域名信息</tab-heading>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-body b-b b-light">
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-sm btn-info" ng-show="isorgmanager"
+                                        ng-click="create()">+创建
+                                </button>
+                                <button type="submit" class="btn btn-sm btn-warning" ng-click="refresh()">刷新</button>
+                            </div>
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <input placeholder="查找域名" class="input-sm form-control" type="text"
+                                       ng-model="filter.filterDomain"/>
+                            </div>
+                        </div>
+                        <div ui-grid="domainGridOptions" ui-grid-pagination ui-grid-auto-resize></div>
+                    </div>
+                </div>
+            </tab>
+            <tab ng-controller="OrganizationDetailsCtrl3">
+                <tab-heading> 用户信息</tab-heading>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-body b-b b-light">
+                            <div class="col-sm-4">
+                                <!--<button type="submit" class="btn btn-sm btn-info" ng-show="isorgmanager"-->
+                                        <!--ng-click="addUser()">+新增用户-->
+                                <!--</button>-->
+                            </div>
+                            <div class="col-sm-4">
+                            </div>
+                            <div class="col-sm-4">
+                                <input placeholder="查找绑定用户" class="input-sm form-control" type="text"
+                                       ng-model="filter.filterBindedUser"/>
+                            </div>
+                        </div>
+                        <div ui-grid="bindedUserGridOptions" ui-grid-pagination ui-grid-auto-resize></div>
+                    </div>
+                </div>
+            </tab>
+            <tab ng-controller="OrganizationDetailsCtrl4">
+                <tab-heading>组织设置</tab-heading>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form class="bs-example form-horizontal" name="myForm" novalidate>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label text-left">组织名称：</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" name="orgname" ng-model="name"
+                                           placeholder="组织名称,必填" required>
+                                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                                          ng-show="myForm.orgname.$dirty && myForm.orgname.$valid"></span>
+                                </div>
+                                <div ng-show="isorgmanager" class="col-md-1" style="padding-top: 7px"><i
+                                        class="fa fa-times text-danger text"
+                                        title="删除组织" ng-click="delete()"></i>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <footer ng-show="isorgmanager" class="panel-footer text-right bg-light lter">
+                        <button type="submit" class="btn btn-info" ng-click="updateOrganization()"
+                                ng-disabled="myForm.$invalid||!myForm.orgname.$dirty">修改名称
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="reset()">取消</button>
+                    </footer>
+                </div>
+            </tab>
+        </tabset>
+    </div>
+</div>

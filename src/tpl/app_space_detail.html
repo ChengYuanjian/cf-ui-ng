@@ -1,0 +1,189 @@
+<style type="text/css">
+	.toplayer{
+		height:200px;
+	}
+</style>
+<div class="bg-light lter b-b wrapper-md" ng-controller="returnToOrg">
+	<h1 class="m-n font-thin h4" style="vertical-align: middle;">
+		空间管理
+		<i class="glyphicon glyphicon-chevron-right"></i>
+		<a ui-sref="app.org_manage.detail({guid:orgGuid ,name:organizationName })">返回组织</a>
+
+	</h1>
+</div>
+<!--<div  ng-controller="SpaceListDetail">
+	<div class="panel panel-default">
+		<div class="toplayer" ng-controller="ProgressDemoCtrl">
+			<div class="col-md-2" ng-controller="Spaceforname">空间名称
+				<h1 style="vertical-align: middle;">{{space_name}}</h1>
+			</div>
+			<div class="col-md-6" >配额信息
+				<div class="form-group">
+					<label class="col-sm-2">内存:</label>
+					<div class="col-sm-9"><uib-progressbar animate="false" value="usedMemoryPercent" type="success"><b>{{usedMemoryPercent}}%</b></uib-progressbar></div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2">路由:</label>
+					<div class="col-sm-9"><uib-progressbar animate="false" value="usedRoutesPercent" type="success"><b>{{usedRoutesPercent}}%</b></uib-progressbar></div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2">应用:</label>
+					<div class="col-sm-9"><uib-progressbar animate="false" value="usedApplicationPercent" type="success"><b>{{usedApplicationPercent}}%</b></uib-progressbar></div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2">服务:</label>
+					<div class="col-sm-9"><uib-progressbar animate="false" value="usedServicePercent" type="success"><b>{{usedServicePercent}}%</b></uib-progressbar></div>
+				</div>
+			</div>
+			<div class="col-md-2" id="enlargeSpaceQuato">扩容
+				<div >
+					<h3> <button type="submit" class="btn btn-sm btn-primary" ng-click="enlarge()">扩容</button></h3>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>-->
+
+<div class="row wrapper-sm" ng-controller="SpaceListDetail">
+	<div class="col-md-2" ng-controller="Spaceforname">
+		<h2>{{space_name}}</h2>
+	</div>
+	<div class="col-md-8">
+		<div class="form-group">
+				<label class="col-md-2 font-bold" style="vertical-align: middle;margin-bottom:0px">内存配额</label>
+			<div class="progress progress-xs col-md-5" style="vertical-align: middle;height:6px;margin-top:7px;margin-bottom:0px">
+				<div class="{{progressClass}}" data-toggle="tooltip"
+					 ng-style="progressStyle"></div>
+			</div>
+			<span class="{{spanClass}} col-md-4">{{usedMemoryPercent}}%(已用{{sumMem}}MB,共{{quota.memory_limit}}MB)</span>
+		</div><br/>
+		<div class="form-group">
+				<label class="col-md-2 font-bold" style="vertical-align: middle;margin-bottom:0px">路由配额</label>
+			<div class="progress progress-xs col-md-5" style="vertical-align: middle;height:6px;margin-top:7px;margin-bottom:0px">
+				<div class="{{progressClassRoute}}" data-toggle="tooltip"
+					 ng-style="progressStyleRoute"></div>
+			</div>
+			<span class="{{spanClassRoute}} col-md-4">{{usedRoutesPercent}}%(已用{{maxRoute}}个,共{{quota.total_routes}}个)</span>
+		</div><br/>
+		<div class="form-group">
+				<label class="col-md-2 font-bold" style="vertical-align: middle;margin-bottom:0px">应用配额</label>
+			<div class="progress progress-xs col-md-5" style="vertical-align: middle;height:6px;margin-top:7px;margin-bottom:0px">
+				<div class="{{progressClassApp}}" data-toggle="tooltip"
+					 ng-style="progressStyleApp"></div>
+			</div>
+			<span class="{{spanClassApp}} col-md-4">{{usedApplicationPercent}}%(已用{{sumApplication}}个,共{{quota.app_instance_limit}}个)</span>
+		</div><br/>
+		<div class="form-group">
+				<label class="col-md-2 font-bold" style="vertical-align: middle;margin-bottom:0px">服务配额</label>
+			<div class="progress progress-xs col-md-5" style="vertical-align: middle;height:6px;margin-top:7px;margin-bottom:0px">
+				<div class="{{progressClassService}}" data-toggle="tooltip"
+					 ng-style="progressStyleService"></div>
+			</div>
+			<span class="{{spanClassService}} col-md-4">{{usedServicePercent}}%(已用{{maxService}}个,共{{quota.total_services}}个)</span>
+		</div>
+
+	</div>
+	<div class="col-md-2">
+		<div class="panel-heading font-bold"></div>
+		<button type="submit" id="enlargeSpaceQuato" class="btn btn-info" ng-click="enlarge()">扩容</button>
+	</div>
+</div>
+
+<div>
+	<tabset class="tab-container">
+
+	<tab ng-controller="spaAppsInfoCtl"> <tab-heading> 应用信息</tab-heading>
+		<div class="panel panel-default">
+			<div class="panel-body b-b b-light">
+				<div class="col-sm-5">
+					<button type="submit" class="btn btn-sm btn-info" ng-model="createApp" ng-show="createApp=='1'" ng-click="create()">+创建</button>
+					<button type="submit" class="btn btn-sm btn-danger" ng-model="deleteApp" ng-show="deleteApp=='1'" ng-click="appdelete()">－删除</button>
+					<button type="submit" class="btn btn-sm btn-warning" ng-click="refreshAppInfo()">刷新</button>
+					<button type="submit" class="btn btn-sm btn-primary" ng-model="startApp" ng-show="startApp=='1'" ng-click="appstart()">启动</button>
+					<button type="submit" class="btn btn-sm btn-default" ng-model="stopApp" ng-show="stopApp=='1'" ng-click="appstop()">停止</button>
+				</div>
+				<div class="col-sm-4"></div>
+				<div class="col-sm-3">
+					<input placeholder="查找应用" class="input-sm form-control" type="text" ng-model="filter.filterApp"/>
+				</div>
+			</div>
+			<div ui-grid="gridSpaAppsOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+		</div>
+	</tab>
+
+	<tab ng-controller="spaceUserInfoCtl">
+		<tab-heading> 用户信息</tab-heading>
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-body b-b b-light">
+					<div class="col-sm-4">
+					</div>
+					<div class="col-sm-4">
+					</div>
+					<div class="col-sm-4">
+						<input placeholder="查找绑定用户" class="input-sm form-control" type="text"
+							   ng-model="filter.filterBindedUser"/>
+					</div>
+				</div>
+				<div ui-grid="bindedUserGridOptions" ui-grid-pagination ui-grid-auto-resize></div>
+			</div>
+		</div>
+	</tab>
+
+	<tab ng-controller="spaceServiceInfoCtl"> <tab-heading> 服务信息 </tab-heading>
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-body b-b b-light">
+						<div class="col-sm-4">
+						</div>
+						<div class="col-sm-4">
+						</div>
+						<div class="col-sm-4">
+							<input placeholder="查找绑定服务" class="input-sm form-control" type="text"
+								   ng-model="filter.filterBindedUser"/>    <!--/需要修改-->
+						</div>
+					</div>
+					<div ui-grid="serviceGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+				</div>
+			</div>
+		</tab>
+
+	<tab ng-controller="spaceSetting">
+			<tab-heading> 空间设置</tab-heading>
+			<div class="row">
+				<div class="col-sm-6">
+					<form class="bs-example form-horizontal" name="myForm">
+						<div class="form-group">
+							<label class="col-md-3 control-label">所属组织：</label>
+							<div class="col-md-9">
+								<input class="form-control" placeholder="组织名称"  ng-model="organizationName" readonly>
+								</select>
+								<span class="glyphicon glyphicon-ok form-control-feedback"
+									  ng-show="myForm.selected_org.$dirty && myForm.selected_org.$valid"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">空间名称：</label>
+							<div class="col-md-9">
+								<input class="form-control" placeholder="空间名称"  ng-model="spaceName">
+								<span class="glyphicon glyphicon-ok form-control-feedback"
+									  ng-show="myForm.spaceName.$dirty && myForm.spaceName.$valid"></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<button class="btn btn-info" id="updateSpace" ng-click="updateSpace()">修改空间</button>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-danger" id="deleteSpace" ng-click="deleteSpace()">删除空间</button>
+					</div>
+				</div>
+			</div>
+		</tab>
+
+	</tabset>
+</div>

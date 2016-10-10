@@ -1,0 +1,26 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h4">服务市场</h1>
+</div>
+
+
+<div class="wrapper-md" ng-controller="marketplaceAddServiceCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            请选择一个服务
+        </div>
+        <div class="panel-body b-b b-light">
+
+            <a class="media" ng-repeat="service in services track by service.id"
+               ui-sref="app.marketplace.serviceplan({serviceId:service.id,serviceName:service.name})">
+                <div class="media-left" href="#">
+                    <img src="{{service.imageUrl}}" alt="{{service.name}}" width="60">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{service.name}}</h4>
+                    <p>{{service.description}}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+

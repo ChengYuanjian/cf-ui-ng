@@ -1,0 +1,76 @@
+<head>
+    <style>
+        .select-control{
+            width:150px;
+            overflow: hidden !important;
+            display: inline !important;
+        }
+    </style>
+</head>
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h4">域名管理</h1>
+</div>
+
+<div class="wrapper-md" ng-controller="DomainListCtrl">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+     域名列表
+    </div>
+    <div class="panel-body b-b b-light">
+      <div class="col-sm-3">
+    		<button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
+    		<button type="submit" class="btn btn-sm btn-danger" ng-click="deleteDomains()">－删除</button>
+        <button type="submit" class="btn btn-sm btn-warning" ng-click="refresh()">刷新</button>
+    	</div>
+      <div class="col-sm-1">
+      </div>
+      <div class="col-sm-8">
+        <div class="row">
+          <!-- <div class="col-sm-5">组织: -->
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+          <select class="form-control input-sm w-sm inline m-r" data-ng-options="org as org.name for org in organizations" ng-model="selected_org" ng-change="getDomainsByParams(selected_org)">
+            <option value="">选择组织</option>
+          </select>
+          </div>
+          <div class="col-sm-4">
+           <input placeholder="查找域名" class="form-control input-sm w-sm inline m-r ng-pristine ng-untouched ng-valid" type="text" ng-model="filter.filterText"/>
+          </div>
+        </div>
+       </div>
+     </div>
+      <div ui-grid="gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+   <!-- <div>
+    	<table class="table m-b-none" ui-jq="footable" data-filter="#filter" data-page-size="5">
+    		<thead>
+    			<tr>
+    				<th>&nbsp;</th>
+    				<th data-toggle="true">域名名称</th>
+            <th data-toggle="true">域名类型</th>
+            <th data-toggle="true">组织</th>
+    				<th data-hide="phone,tablet">创建时间</th>
+    				<th data-hide="phone,tablet">更新时间</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr ng-repeat="x in domains">
+    				<td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+    				<td><a ui-sref="app.space_detail({guid:x.guid})">{{x.name}}</a></td>
+            <td>{{x.type}}</td>
+            <td>{{x.org_name}}</td>
+    				<td>{{x.created_at}}</td>
+    				<td>{{x.updated_at}}</td>
+    			</tr>
+    		</tbody>
+    		<tfoot class="hide-if-no-paging">
+    			<tr>
+    				<td colspan="5" class="text-right">
+    					<ul class="pagination"></ul>
+    				</td>
+    			</tr>
+    		</tfoot>
+    	</table>
+    </div>-->
+  </div>
+</div>

@@ -1,0 +1,47 @@
+'use strict';
+
+
+angular.module('app', [
+    'ngAnimate',
+    'ngCookies',
+    'ngResource',
+    'ngSanitize',
+    'ngTouch',
+    'ngStorage',
+    'ui.router',
+    'ui.bootstrap',
+    'ui.bootstrap.tpls',
+    'ui.utils',
+    'ui.load',
+    'ui.jq',
+    'oc.lazyLoad',
+    'pascalprecht.translate',
+    'dialogs.main',
+    'ui.grid',
+    'ui.tree',
+    'angularBootstrapNavTree',
+    'ui.grid.pagination',
+    'ui.grid.selection',
+    'angular-confirm',
+    'ui.grid.autoResize',
+    'flow',
+    'angularSpinner',
+    // 'spin',
+
+    // components
+    'app.info',
+    'app.application',
+    'app.auth',
+    'app.organization',
+    'app.space',
+    'app.service',
+    'app.serviceInstance',
+    'app.user',
+    'app.domain',
+    'app.routes',
+    'app.serviceBinding',
+    'app.marketplace',
+    'app.featureFlag',
+    'app.buildpack',
+    'app.crypt'
+]);

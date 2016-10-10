@@ -1,0 +1,184 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h4">空间详情</h1>
+</div>
+
+<div ng-controller="SpaceDetailCtrl">
+  <tabset class="tab-container">
+    <tab>
+      <tab-heading>
+        信息统计
+      </tab-heading>
+
+    </tab>
+    <tab>
+      <tab-heading>
+        应用信息
+      </tab-heading>
+      <div ng-controller="SpaceAppListCtrl">
+      <table class="table m-b-none" ui-jq="footable" data-filter="#filter" data-page-size="10">
+        <thead>
+          <tr>
+	          <th>
+	              &nbsp;
+	          </th>
+              <th>
+                  应用名称
+              </th>
+              <th>
+                  实例数目
+              </th>
+              <th>
+                  创建者
+              </th>
+              <th>
+                  创建时间
+              </th>
+              <th>
+                  更新时间
+              </th>
+              <th>
+                  当前状态
+              </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="x in datas">
+          	  <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+              <td>{{x.name}}</td>
+              <td>{{x.instancenum}}</td>
+              <td>{{x.creater}}</td>
+              <td>{{x.createtime}}</td>
+              <td>{{x.updatetime}}</td>
+              <td>{{x.status}}</td>
+          </tr>
+        </tbody>
+        <tfoot class="hide-if-no-paging">
+          <tr>
+              <td colspan="5" class="text-right">
+                  <ul class="pagination"></ul>
+              </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    </tab>
+    <tab>
+      <tab-heading>
+        域名信息
+      </tab-heading>
+
+    </tab>
+    <tab>
+      <tab-heading>
+        用户信息
+      </tab-heading>
+
+    </tab>
+  </tabset>
+</div>
+
+<script>
+app.controller('SpaceAppListCtrl', function($scope) {
+    $scope.datas = [
+                    {
+                        "guid": "1",
+                        "name": "应用1",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "2",
+                        "name": "应用2",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "3",
+                        "name": "应用3",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "4",
+                        "name": "应用4",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "5",
+                        "name": "应用5",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "6",
+                        "name": "应用6",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "7",
+                        "name": "应用7",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "8",
+                        "name": "应用8",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "9",
+                        "name": "应用9",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "10",
+                        "name": "应用10",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    },
+                    {
+                        "guid": "11",
+                        "name": "应用11",
+                        "instancenum": 4,
+                        "status": "running",
+                        "creater": "admin",
+                        "createtime": "2016-06-30 00:00:00",
+                        "updatetime": "2016-07-01 00:00:00"
+                    }
+                ];
+});
+</script>

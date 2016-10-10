@@ -1,0 +1,56 @@
+<div ng-controller="marketplaceSelectServicePlanCtrl">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h4" style="vertical-align: middle;">
+            <a ui-sref="app.marketplace.list">服务市场</a>
+            <i class="glyphicon glyphicon-chevron-right"></i>
+            {{serviceName}}
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                请选择一个服务方案
+            </div>
+            <div class="panel-body b-b b-light">
+                <div class="selected-service row">
+                    <div class="col-md-4">
+                        <img src="{{selectedService.imageUrl}}" alt="{{selectedService.name}}" width="60">
+                        <h4>{{selectedService.name}}</h4>
+                        <p>{{selectedService.description}}</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h4>关于该服务</h4>
+                        <p>{{selectedService.longDescription}}</p>
+                        <p><a href="{{selectedService.documentationUrl}}" target="_blank">文档</a> | <a
+                                href="{{selectedService.supportUrl}}" target="_blank">技术支持</a></p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h4>供应商</h4>
+                        <p>{{selectedService.provider}}</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="select-serviceplan row">
+                    <div class="col-md-12">
+                        <tabset vertical="false" type="tabs">
+                            <tab ng-repeat="servicePlan in servicePlans track by servicePlan.id"
+                                 heading="{{servicePlan.name}} ({{servicePlan.costs}})">
+                                <p>{{servicePlan.description}}</p>
+                                <ul>
+                                    <li ng-repeat="bullet in servicePlan.bullets">{{bullet}}</li>
+                                </ul>
+                                <button class="btn btn-primary" ui-sref="app.marketplace.serviceinstance({serviceId:serviceId,serviceName:serviceName,servicePlanId:servicePlan.id,servicePlanName:servicePlan.name})">选择
+                                    {{servicePlan.name}}
+                                </button>
+                            </tab>
+                        </tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<head>
+  <style>
+    .select-control{
+      width:100px;
+      overflow: hidden !important;
+      display: inline !important;
+    }
+  </style>
+</head>
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h4">
+    <a ui-sref="app.space_manage.list">空间管理</a>
+  </h1>
+</div>
+
+<div class="wrapper-md" ng-controller="SpaceListCtl">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+     空间列表
+    </div>
+    <div class="panel-body b-b b-light"  >
+      <div class="col-sm-3">
+        <button type="submit" class="btn btn-sm btn-info" ng-click="addspace()">+创建</button>
+        <button type="submit" class="btn btn-sm btn-danger" ng-click="deletespace()">－删除</button>
+        <button type="submit" class="btn btn-sm btn-warning" ng-click="refresh()">刷新</button>
+      </div>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <select class="form-control input-sm w-sm inline m-r" data-ng-options="org as org.name for org in organizations"
+                    ng-model="selected_org"  ng-change="getAppsByOrgParams(selected_org)">
+              <option value="">选择组织</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <input id="filter" type="text" class="form-control input-sm w-sm inline m-r" placeholder="查找空间" ng-model="filter.filterText"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div ui-grid="spacegridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+    <!--<div ng-controller="SpaceListCtl">
+      <table class="table m-b-none" ui-jq="footable" data-filter="#filter" data-page-size="5">
+        <thead>
+          <tr>
+	          <th>
+	              &nbsp;
+	          </th>
+              <th data-toggle="true">
+                  空间名称
+              </th>
+              <th>
+                  所属组织
+              </th>
+              <th data-hide="phone,tablet">
+                  创建时间
+              </th>
+              <th data-hide="phone,tablet" data-name="Date Of Birth">
+                  更新时间
+              </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="x in spaces">
+          	  <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+              <td><a ui-sref="app.space_manage.detail({guid:x.guid,spacename:x.name})">{{x.name}}</a></td>
+              <td>{{x.org}}</td>
+              <td>{{x.created_at}}</td>
+              <td>{{x.updated_at}}</td>
+          </tr>
+        </tbody>
+        <tfoot class="hide-if-no-paging">
+          <tr>
+              <td colspan="5" class="text-right">
+                  <ul class="pagination"></ul>
+              </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>-->
+  </div>
+</div>

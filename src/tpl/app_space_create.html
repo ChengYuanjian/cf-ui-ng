@@ -1,0 +1,115 @@
+<div >
+  <div class="modal-header">
+      <h3 class="modal-title">创建空间</h3>
+  </div>
+  <div class="modal-body">
+    <form class="bs-example form-horizontal"  name = 'myForm'>
+      <div class="form-group">
+        <label class="col-md-3 control-label">所属组织：</label>
+        <div class="col-md-9">
+          <select class="form-control m-b ng-pristine ng-untouched ng-valid"  data-ng-options="org.name for org in organizations"
+                  ng-model="organization">
+          </select>
+          <span class="glyphicon glyphicon-ok form-control-feedback"
+                ng-show="myForm.memory_limit.$dirty && myForm.memory_limit.$valid"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">空间名称：</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="spacename" ng-model="space.name" placeholder="空间名称,必填" required>
+                      <span class="glyphicon glyphicon-ok form-control-feedback"
+                            ng-show="myForm.spacename.$dirty && myForm.spacename.$valid"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">收费服务：</label>
+        <div class="col-md-9 radio">
+          <label class="m-r">
+          <input type="radio" name="optionsRadiosallowed" id="optionsallowed1" value="是" ng-click="isallowed('t')">
+           开启
+          </label>
+          <label class="m-r">
+          <input type="radio" name="optionsRadiosallowed" id="optionsallowed2" value="否" ng-click="isallowed('s')">
+          关闭
+          </label>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;(开启收费服务，用户可以使用收费服务)</span>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">空间大小：</label>
+        <div class="col-md-9 radio">
+          <label class="m-r">
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="s" ng-click="isActive('s')">
+            小
+          </label>
+          <label class="m-r">
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="m" ng-click="isActive('m')">
+            中
+          </label>
+          <label class="m-r">
+            <input type="radio" name="optionsRadios" id="optionsRadios3" value="l" ng-click="isActive('l')">
+            大
+          </label>
+         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(选择空间大小将自动填充建议配额)</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">服务配额：</label>
+        <div class="col-md-9">
+          <input type="number" name="total_services" class="form-control" placeholder="服务配额，-1表示无限制,必填" ng-model="quota.total_services" required>
+            <span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="myForm.total_services.$dirty && myForm.total_services.$valid"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">总服务键：</label>
+        <div class="col-md-9">
+          <input type="number" name="total_service_keys" class="form-control" placeholder="总服务键,不填为-1" ng-model="quota.total_service_keys" >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">路由配额：</label>
+        <div class="col-md-9">
+          <input type="number" name="total_routes" class="form-control" placeholder="路由配额，-1表示无限制,必填" ng-model="quota.total_routes" required>
+           <span class="glyphicon glyphicon-ok form-control-feedback"
+                 ng-show="myForm.total_routes.$dirty && myForm.total_routes.$valid"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">内存配额(M)：</label>
+        <div class="col-md-9">
+          <input type="number" name="memory_limit" class="form-control" placeholder="内存配额,必填" ng-model="quota.memory_limit" required>
+              <span class="glyphicon glyphicon-ok form-control-feedback"
+                    ng-show="myForm.memory_limit.$dirty && myForm.memory_limit.$valid"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">实例内存配额(M)：</label>
+        <div class="col-md-9">
+          <input type="number" name="instance_memory_limit" class="form-control" placeholder="实例最小内存,不填为-1" ng-model="quota.instance_memory_limit" >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">实例配额：</label>
+        <div class="col-md-9">
+          <input type="number" name="app_instance_limit" class="form-control" placeholder="应用最小实例数,不填为-1" ng-model="quota.app_instance_limit" >
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-info" ng-click="addspaceok()"  ng-disabled="myForm.$invalid">确定</button>
+      <button class="btn btn-default" ng-click="cancel()">取消</button>
+  </div>
+</div>

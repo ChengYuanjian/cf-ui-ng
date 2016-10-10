@@ -1,0 +1,49 @@
+<head>
+    <style>
+        .select-control{
+            width:100px;
+            overflow: hidden !important;
+            display: inline !important;
+        }
+    </style>
+</head>
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h4">路由管理</h1>
+</div>
+
+<div class="wrapper-md" ng-controller="RouterListCtrl">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+     路由列表
+    </div>
+    <div class="panel-body b-b b-light" >
+      <div class="col-sm-3">
+    		<button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
+    		<button type="submit" class="btn btn-sm btn-danger" ng-click="deleteRoutes()">－删除</button>
+        <button type="submit" class="btn btn-sm btn-warning" ng-click="refresh()">刷新</button>
+    	</div>
+    	<div class="col-sm-1">
+    	</div>
+    	<div class="col-sm-8">
+        <div class="row">
+          <div class="col-sm-4">
+    			  <select class="form-control input-sm w-sm inline m-r" data-ng-options="org as org.name for org in organizations"
+    					  ng-model="selected_org"  ng-change="getRoutersByOrgParams(selected_org)">
+    				  <option value="">选择组织</option>
+    			  </select>
+          </div>
+          <div class="col-sm-4">
+            <select class="form-control input-sm w-sm inline m-r" data-ng-options="space as space.name for space in spaces"
+  				  ng-model="selected_space"  ng-change="getRoutersBySpaceParams(selected_space)">
+  			       <option value="">选择空间</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+        		<input placeholder="查找路由" class="form-control input-sm w-sm inline m-r ng-pristine ng-untouched ng-valid" type="text" ng-model="filter.filterText"/>
+          </div>
+        </div>
+    	</div>
+    </div>
+	   <div ui-grid="gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+  </div>
+</div>

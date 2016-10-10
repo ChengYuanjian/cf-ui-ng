@@ -1,0 +1,79 @@
+<div ng-controller="marketplaceAddServiceInstanceCtrl">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h4" style="vertical-align: middle;">
+            <a ui-sref="app.marketplace.list">服务市场</a>
+            <i class="glyphicon glyphicon-chevron-right"></i>
+            <a ui-sref="app.marketplace.serviceplan({serviceId:serviceId,serviceName:serviceName})">{{serviceName}}</a>
+            <i class="glyphicon glyphicon-chevron-right"></i>{{servicePlanName}}
+        </h1>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            添加一个服务实例
+        </div>
+        <div class="panel-body b-b b-light">
+            <form class="form-horizontal" name="formAddInstanceService">
+                <div class="form-group" ng-show="showSelectOrganization">
+                    <label for="inputOrganization" class="col-sm-3 control-label">选择组织</label>
+                    <div class="col-sm-9">
+                        <select type="text" class="form-control" id="inputOrganization" required
+                                ng-options="organization.id as organization.name for organization in organizations"
+                                ng-model="organizationId" ng-change="selectSpace()"></select>
+                    </div>
+
+                </div>
+
+                <div class="form-group" ng-show="showSelectSpace">
+                    <label for="inputSpace" class="col-sm-3 control-label">选择空间</label>
+                    <div class="col-sm-9">
+                        <select type="text" class="form-control" id="inputSpace" required
+                                ng-options="space.id as space.name for space in spaces" ng-model="spaceId"
+                                ng-change="selectApplication()"></select>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="showSelectApplication">
+                    <label for="inputApp" class="col-sm-3 control-label">绑定应用(可选,不选将绑定至空间)</label>
+                    <div class="col-sm-9">
+                        <select type="text" class="form-control" id="inputApp"
+                                ng-options="application.id as application.name for application in applications"
+                                ng-model="applicationId">
+                            <option value="">--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">服务名称</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">{{service.label}}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">服务方案</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">{{servicePlan.name}} ({{servicePlan.costs}})</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputInstanceName" class="col-sm-3 control-label">服务实例名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputInstanceName" ng-model="instanceName" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button class="btn btn-primary" ng-click="addServiceInstance()"
+                                ng-disabled="formAddInstanceService.$invalid">确定
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

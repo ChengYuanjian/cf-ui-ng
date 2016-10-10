@@ -1,0 +1,21 @@
+
+<div class="container w-xxl w-auto-xs" ng-controller="LoginCtl" ng-init="app.settings.container = false;">
+  <a href class="navbar-brand block m-t">{{app.name}}</a>
+  <div class="m-b-lg">
+    <loading mytext="登录中"></loading>
+    <form name="formLogin" class="form-validation">
+      <div class="list-group list-group-sm">
+        <div class="list-group-item">
+          <input type="text" class="form-control" placeholder="用户名" required ng-model="loginData.userName">
+        </div>
+        <div class="list-group-item">
+           <input type="password" class="form-control" placeholder="密码" required ng-model="loginData.password">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="login()" ng-disabled='formLogin.$invalid'>登录</button>
+    </form>
+  </div>
+  <div class="text-center" ng-include="'tpl/blocks/page_footer.html'">
+    {% include 'blocks/page_footer.html' %}
+  </div>
+</div>

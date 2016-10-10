@@ -1,0 +1,13 @@
+---
+applications:
+- name: usr-cyj
+  memory: 128M
+  host: usr-cyj
+  path: ../../angular
+  buildpack: staticfile_buildpack
+  env:
+    API_ENDPOINT: https://api.truepaas.cn
+    # Use Google DNS by default
+    NGINX_RESOLVER: 8.8.8.8
+    #Enforce https is used (using x_forwarded_proto check) .Default: enabled
+    FORCE_HTTPS: 1

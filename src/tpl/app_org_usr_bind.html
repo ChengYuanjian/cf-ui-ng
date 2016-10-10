@@ -1,0 +1,29 @@
+<div>
+  <div class="modal-header">
+    <h3 class="modal-title">用户绑定</h3>
+  </div>
+  <div class="modal-body">
+    <form class="bs-example form-horizontal" name="myForm">
+      <div class="form-group">
+        <label class="col-md-4 control-label">用户名称：</label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" ng-model="name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-4 control-label">{{roles.length>0?'请勾选需要绑定的角色：':'该用户角色已全部绑定'}}</label>
+        <div class="col-md-8 checkbox">
+          <label ng-repeat="x in roles">
+            <input type="checkbox" id={{x.role}} name="{{x.label}}" ng-checked="isSelected(x.role)" ng-click="updateSelection($event,x.role)">
+            {{x.label}}
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="ok()">确定</button>
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+  </div>
+</div>
+
