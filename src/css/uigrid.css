@@ -1,0 +1,21 @@
+.ui-grid-row{
+    height: auto!important;
+}
+
+.ui-grid-row   > div {
+    display: table-row;
+
+}
+
+.ui-grid-row > div .ui-grid-cell {
+    display: table-cell;
+    float: none;
+    vertical-align: middle;
+    height: auto!important;
+}
+
+.ui-grid-cell-contents{
+    white-space: normal;
+    text-overflow: inherit;
+    word-break: break-word;
+}

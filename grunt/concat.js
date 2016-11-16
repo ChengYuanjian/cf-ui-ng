@@ -23,6 +23,9 @@ module.exports = {
 
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-confirm-modal/angular-confirm.js',
+      'bower_components/angular-websocket/dist/angular-websocket.min.js',
+      'bower_components/angular-echarts/dist/angular-echarts.min.js',
+      // 'bower_components/echarts/build/dist/echarts-all.js',
 
       'bower_components/oclazyload/dist/ocLazyLoad.js',
       'bower_components/flot/jquery.flot.js',

@@ -1,13 +1,11 @@
 <div ng-controller="OrganizationDetailsBaseCtrl">
-    <div class="bg-light lter b-b wrapper-sm">
-        <h1 class="m-n font-thin h4" style="vertical-align: middle;">
-            组织详情
-            <i class="glyphicon glyphicon-chevron-right"></i>
-            {{name}}
-        </h1>
+    <div class="affix affix-top road-top {{app.settings.navbarCollapseColor}} lter wrapper-md">
+    <h1 class="m-n font-thin h4" style="vertical-align: middle;">
+        <a ui-sref="app.org_manage.detail({guid:orgGuid ,name:organizationName })">{{name}}</a>
+    </h1>
     </div>
 
-    <div class="row wrapper-sm" ng-controller="OrganizationDetailsCtrl">
+    <div class="bg-white-only row wrapper-sm" style="margin-left: 0px; " ng-controller="OrganizationDetailsCtrl">
         <div class="col-md-4">
             <h2>{{name}}</h2>
         </div>
@@ -28,36 +26,34 @@
     </div>
 
 
-    <div class="wrapper-sm">
+    <!-- <div class="wrapper-sm"> -->
         <tabset class="tab-container">
             <tab ng-controller="OrganizationDetailsCtrl1">
                 <tab-heading>空间信息
                 </tab-heading>
                 <div class="row wrapper-sm">
-                    <div ng-repeat="space in spaces" class="col-md-4">
+                    <div ng-repeat="space in spaces" class="col-md-3">
                         <a ui-sref="app.space_manage.detail({guid:space.guid,spacename:space.name,orgGuid:id})">
-                            <div class="panel panel-default">
-                                <div class="panel-heading font-bold">
+                            <div class="panel panel-default custom-panel">
+                                <div class="panel-heading">
                                     {{space.name}}(内存:{{space.memory}}MB)
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-sm-8">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <span class="text-muted text-xs">应用</span><br>
                                             <span class="h1 text-info font-thin h1">{{space.nrOfStartedApps+space.nrOfStoppedApps+space.nrOfCrashedApps}}</span>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="m-b"><span title="STARTED"
-                                                                   class="label text-base bg-info pos-rlt m-r">{{space.nrOfStartedApps}}</span>
+                                                                   class="label text-base bg-info">{{space.nrOfStartedApps}}</span>
                                             </div>
                                             <div class="m-b"><span title="STOPPED"
-                                                                   class="label text-base bg-warning pos-rlt m-r">{{space.nrOfStoppedApps}}</span>
+                                                                   class="label text-base bg-warning">{{space.nrOfStoppedApps}}</span>
                                             </div>
                                             <div class="m-b"><span title="CRASHED"
-                                                                   class="label text-base bg-danger pos-rlt m-r">{{space.nrOfCrashedApps}}</span>
+                                                                   class="label text-base bg-danger">{{space.nrOfCrashedApps}}</span>
                                             </div>
                                         </div>
-                                    </div>
                                     <div class="col-sm-4">
                                         <span class="text-muted text-xs">服务</span><br>
                                         <span class="h1 text-info font-thin h1">{{space.nrOfServices}}</span>
@@ -80,9 +76,8 @@
             </tab>
             <tab ng-controller="OrganizationDetailsCtrl2">
                 <tab-heading>域名信息</tab-heading>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-body b-b b-light">
+                    <div class="noborder bg-white panel panel-default">
+                        <div class="bg-white bottom-border-only panel-body b-b b-light">
                             <div class="col-sm-4">
                                 <button type="submit" class="btn btn-sm btn-info" ng-show="isorgmanager"
                                         ng-click="create()">+创建
@@ -95,15 +90,14 @@
                                        ng-model="filter.filterDomain"/>
                             </div>
                         </div>
+
                         <div ui-grid="domainGridOptions" ui-grid-pagination ui-grid-auto-resize></div>
-                    </div>
                 </div>
             </tab>
             <tab ng-controller="OrganizationDetailsCtrl3">
                 <tab-heading> 用户信息</tab-heading>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-body b-b b-light">
+                    <div class="noborder bg-white panel panel-default">
+                        <div class="bg-white bottom-border-only panel-body b-b b-light">
                             <div class="col-sm-4">
                                 <!--<button type="submit" class="btn btn-sm btn-info" ng-show="isorgmanager"-->
                                         <!--ng-click="addUser()">+新增用户-->
@@ -118,12 +112,11 @@
                         </div>
                         <div ui-grid="bindedUserGridOptions" ui-grid-pagination ui-grid-auto-resize></div>
                     </div>
-                </div>
             </tab>
             <tab ng-controller="OrganizationDetailsCtrl4">
                 <tab-heading>组织设置</tab-heading>
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="noborder bg-white panel panel-default">
+                    <div class="bg-white panel-body">
                         <form class="bs-example form-horizontal" name="myForm" novalidate>
                             <div class="form-group">
                                 <label class="col-md-4 control-label text-left">组织名称：</label>
@@ -149,5 +142,5 @@
                 </div>
             </tab>
         </tabset>
-    </div>
+    <!-- </div> -->
 </div>

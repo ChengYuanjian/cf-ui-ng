@@ -1,21 +1,53 @@
-
-<div class="container w-xxl w-auto-xs" ng-controller="LoginCtl" ng-init="app.settings.container = false;">
-  <a href class="navbar-brand block m-t">{{app.name}}</a>
-  <div class="m-b-lg">
-    <loading mytext="登录中"></loading>
-    <form name="formLogin" class="form-validation">
-      <div class="list-group list-group-sm">
-        <div class="list-group-item">
-          <input type="text" class="form-control" placeholder="用户名" required ng-model="loginData.userName">
-        </div>
-        <div class="list-group-item">
-           <input type="password" class="form-control" placeholder="密码" required ng-model="loginData.password">
+<div data-ng-include=" 'tpl/lp_header.html' " class="app-header navbar">
+</div>
+<div class="login-bg">
+  <div class="container page-wrap devise-view-bg" ng-controller="LoginCtl" ng-init="app.settings.container = false;">          
+      <div class="devise-view">
+      <!-- <img src="img/login-bg.jpg" alt="background image"> -->
+        <div class="devise-sign-up">
+          <div class="left">
+            <h1>给你想要的</h1>
+            <div class="description">
+              <h2>好钢用在刀刃上</h2>
+              <p>公有TruePaaS平台按需计费，满足您的业务升级增长需求。</p>
+              <h2>升级！不换代！</h2>
+              <p>私有TruePaaS平台发挥现有资源价值，公有私有云无缝联动。</p>
+            </div>
+          </div>
+          <div class="right">
+            <div class="input-block">
+              <form name="formLogin" class="form-validation">
+                <div>
+                  <div class="form-group email optional user_email">
+                    <input class="string email optional form-control" autofocus="autofocus" placeholder="用户名" type="text" required ng-model="loginData.userName">
+                  </div>
+                </div>
+                <div>
+                  <div class="form-group password optional user_password">
+                    <input class="password optional form-control" placeholder="密码" type="password" required ng-model="loginData.password">
+                  </div>
+                </div>
+                <div>
+                  <div class="form-group boolean optional user_remember_me">
+                    <div class="checkbox">
+                      <input value="0" type="hidden" name="user[remember_me]">
+                      <label>
+                        <input class="boolean optional" type="checkbox"> 记住我
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <input type="submit" name="commit" value="登 录" ng-click="login()"  ng-disabled='formLogin.$invalid' class="btn btn-default btn btn-devise btn-block" data-disable-with="登 录">
+              </form>
+              <br>新用户？<a href="#">注册</a><br>
+              <span>
+                <a href="#">忘记密码?</a>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="login()" ng-disabled='formLogin.$invalid'>登录</button>
-    </form>
   </div>
-  <div class="text-center" ng-include="'tpl/blocks/page_footer.html'">
-    {% include 'blocks/page_footer.html' %}
-  </div>
+</div>
+<div data-ng-include=" 'tpl/lp_footer.html' ">
 </div>

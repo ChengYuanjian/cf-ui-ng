@@ -1,14 +1,14 @@
-<div class="bg-light lter b-b wrapper-md">
+<div class="affix affix-top road-top {{app.settings.navbarCollapseColor}} lter wrapper-md">
     <h1 class="m-n font-thin h4">服务市场</h1>
 </div>
 
 
 <div class="wrapper-md" ng-controller="marketplaceAddServiceCtrl">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="noborder bg-white panel panel-default">
+        <div class="bg-white bottom-border-only panel-heading">
             请选择一个服务
         </div>
-        <div class="panel-body b-b b-light">
+        <div class="bg-white panel-body b-b b-light">
 
             <a class="media" ng-repeat="service in services track by service.id"
                ui-sref="app.marketplace.serviceplan({serviceId:service.id,serviceName:service.name})">

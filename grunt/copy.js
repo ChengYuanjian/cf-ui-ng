@@ -38,6 +38,7 @@ module.exports = {
             {expand: true, src: "**", cwd: 'bower_components/plugins/integration/bootstrap/3/', dest: 'angular/bower_components/plugins/integration/bootstrap/3/'},
             {expand: true, src: "**", cwd: 'bower_components/bootstrap-tagsinput/dist/', dest: 'angular/bower_components/bootstrap-tagsinput/dist/'},
             {expand: true, src: "**", cwd: 'bower_components/bootstrap-tagsinput/dist/', dest: 'angular/bower_components/bootstrap-tagsinput/dist/'},
+            {expand: true, src: "**", cwd: 'bower_components/echarts/build/dist/', dest: 'angular/bower_components/echarts/build/dist/'},
             {expand: true, src: "spin.min.js", cwd: 'bower_components/spin.js/', dest: 'angular/bower_components/spin.js/'},
             {expand: true, src: 'ui-grid.eot', cwd:'bower_components/angular-ui-grid/', dest : 'angular/css/',flatten: true},
             {expand: true, src: 'ui-grid.svg', cwd:'bower_components/angular-ui-grid/', dest : 'angular/css/'},

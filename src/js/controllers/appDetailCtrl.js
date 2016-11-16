@@ -43,6 +43,30 @@ app.controller('AppDetailCtrl', function($rootScope, $scope, $modal, $log, notif
         });
     };
 
+    //文件上传模块
+    $scope.processFiles = function (files) {
+        var resources = [];
+        angular.forEach(files, function (flowFile, i) {
+            var fileReader = new FileReader();
+            fileReader.onload = function (event) {
+                result = event.target.result;
+                sha1 = crypt.SHA1(event.target.result.data);
+
+                var fileEntity = {
+                    "sha1": sha1,
+                    "fn": flowFile.relativePath,
+                    "size": flowFile.file.size
+                }
+                resources.push(fileEntity);
+            };
+            fileReader.readAsBinaryString(flowFile.file);
+        });
+
+        $scope.uploadapp = {};
+        $scope.uploadapp.resources = resources;
+        $scope.uploadapp.application = files[0].file;
+    };
+
     ////define vars
     //$scope.name='';
     //$scope.instances=0;
@@ -148,6 +172,30 @@ app.controller('AppDetailCtrl', function($rootScope, $scope, $modal, $log, notif
             if (err.data.code)
                 notificationService.error('修改应用失败,原因是:\n' + err.data.description);
         });
+        //文件上传模块
+        $scope.uploadapp.id = appInfo.guid;
+        applicationService.addApplicationOne($scope.uploadapp).then(function (response3) {
+            creatappok = true;
+
+            var editapp = {
+                "id": $scope.uploadapp.id,
+                "state": "STARTED"
+            }
+
+            applicationService.stateApplication(editapp).then(function (response4) {
+                notificationService.info('应用：' + $scope.name + '启动成功！')
+            }, function (err) {
+                $log.error(err);
+                notificationService.error('启动应用[' + $scope.name + ']失败,原因是:\n' + err.data.description);
+            });
+
+        });
+
+
+
+
+
+
     };
 
     $scope.reset = function () {
@@ -165,14 +213,17 @@ app.controller('AppDetailCtrl', function($rootScope, $scope, $modal, $log, notif
 });
 
 
-app.controller('Appforname', function($rootScope, $scope,$stateParams,$log,$state) {
-    $scope.app_name =$stateParams.name;
-    $scope.space_name=$stateParams.space;
+app.controller('Appforname', function($rootScope, $scope,$stateParams,$log,$state, organizationService) {
     $scope.space_guid=$stateParams.space_guid;
     $scope.org_guid=$stateParams.org_guid;
-    $scope.click=function(){
-        $state.go('app.space_manage.detail', {"guid": $scope.space_guid, "spacename":$scope.space_name,"orgGuid":$scope.org_guid});
-    };
+    organizationService.getOrganization($scope.org_guid).then(function (response) {
+        $scope.organizationName = response.data.entity.name;
+        $scope.space_name=$stateParams.space;
+        $scope.app_name =$stateParams.name;
+        $scope.click=function(){
+            $state.go('app.space_manage.detail', {"guid": $scope.space_guid, "spacename":$scope.space_name,"orgGuid":$scope.org_guid});
+        };
+    });
 });
 
 app.controller('appInstanceInfoCtl', function($rootScope, $scope,i18nService,$filter,$stateParams,$log,applicationService) {
@@ -766,6 +817,7 @@ app.controller('appServiceInstanceCtl', ['$rootScope', '$scope', '$modal', '$log
         };
 
 
+
         $scope.createService=function(){
             var param={
                 appGuid:$stateParams.guid,
@@ -773,7 +825,30 @@ app.controller('appServiceInstanceCtl', ['$rootScope', '$scope', '$modal', '$log
                 serviceInstanceIds:$scope.serviceInstanceIds
             };
             var dlg = dialogs.create('tpl/app_app_service_create.html','appServiceCreateCtl',param, 'default');
-            dlg.result.then(function(){
+            dlg.result.then(function(restart){
+                if(restart){
+                    var editapp = {
+                        "id": $stateParams.guid,
+                        "state": "STOPPED"
+                    }
+                    applicationService.stateApplication(editapp).then(function (response) {
+                        var editStatus = {
+                            "id": $stateParams.guid,
+                            "state": "STARTED"
+
+
+                        }
+                        applicationService.stateApplication(editStatus).then(function (response) {
+                            notificationService.success('重启应用成功');
+                        }, function (err) {
+                            $log.error(err);
+                            notificationService.error('启动应用失败,原因是:\n' + err.data.description);
+                        });
+                    }, function (err) {
+                        $log.error(err);
+                        notificationService.error('停止应用失败,原因是:\n' + err.data.description);
+                    });
+                }
                 $scope.refresh();
             });
         };
@@ -819,6 +894,16 @@ app.controller('appServiceCreateCtl', function ($rootScope, $scope, i18nService,
     i18nService.setCurrentLang("zh-cn");
     var envinfo={};
 
+    //重启应用
+
+    $scope.restart=function(){
+        if($scope.isRestart){
+            $scope.restartApp = true;
+        }else{
+            $scope.restartApp = false;
+        }
+    }
+
     $scope.serviceInstanceArray = data.serviceInstanceIds;
     $scope.appId = data.appGuid;
     $scope.addAppService = function () {
@@ -829,7 +914,7 @@ app.controller('appServiceCreateCtl', function ($rootScope, $scope, i18nService,
                 angular.forEach($scope.gridApi.selection.getSelectedRows(), function (service, i) {
                     serviceBindingService.addServiceBinding(service).then(function(resp){
                         notificationService.success('绑定服务[' + service.serviceInstanceName + ']成功');
-                        $modalInstance.close();
+                        $modalInstance.close($scope.restartApp);
                     }, function (err, status) {
                         defer.reject();
                         $log.error(err);

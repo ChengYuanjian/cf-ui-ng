@@ -22,7 +22,7 @@ angular.module('app')
 
                         if (!authentication.isAuth) {
                             event.preventDefault();
-                            return $state.go('access.login',{from:fromState.name,w:'notLogin'},{location: true});
+                            return $state.go('access.index',{from:fromState.name,w:'notLogin'},{location: true});
                         }
                     }
                 });
@@ -34,9 +34,28 @@ angular.module('app')
             function ($stateProvider,   $urlRouterProvider, JQ_CONFIG) {
 
                 $urlRouterProvider
-                    .otherwise('/app/dashboard');
+                    .otherwise('/access/index');
 
                 $stateProvider
+                    .state('access', {
+                        url: '/access',
+                        template: '<div ui-view></div>'
+                    })
+                    .state('access.login', {
+                        url: '/login',
+                        templateUrl: 'tpl/login.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function( $ocLazyLoad ){
+                                    return $ocLazyLoad.load(['js/controllers/loginCtl.js','js/controllers/userCtl.js']);
+                                }]
+                        }
+                    })
+                    .state('access.index', {
+                        url: '/index',
+                        templateUrl: 'tpl/landing_page.html',
+        
+                    })
                     .state('app', {
                         abstract: true,
                         url: '/app',
@@ -44,17 +63,7 @@ angular.module('app')
                         resolve: {
                             deps: ['$ocLazyLoad',
                                 function( $ocLazyLoad ){
-                                    return $ocLazyLoad.load(['js/controllers/logoutCtl.js','js/controllers/loadMenuCtl.js']);
-                                }]
-                        }
-                    })
-                    .state('app.dashboard', {
-                        url: '/dashboard',
-                        templateUrl: 'tpl/app_dashboard.html',
-                        resolve: {
-                            deps: ['$ocLazyLoad',
-                                function( $ocLazyLoad ){
-                                    return $ocLazyLoad.load(['js/controllers/chart.js']);
+                                    return $ocLazyLoad.load(['js/controllers/logoutCtl.js','js/controllers/loadMenuCtl.js','js/controllers/userCtl.js']);
                                 }]
                         }
                     })
@@ -183,20 +192,6 @@ angular.module('app')
                         url: '/userCreate',
                         templateUrl: 'tpl/app_user_create.html'
                     })
-                    .state('access', {
-                        url: '/access',
-                        template: '<div ui-view></div>'
-                    })
-                    .state('access.login', {
-                        url: '/login',
-                        templateUrl: 'tpl/login.html',
-                        resolve: {
-                            deps: ['$ocLazyLoad',
-                                function( $ocLazyLoad ){
-                                    return $ocLazyLoad.load(['js/controllers/loginCtl.js','js/controllers/userCtl.js']);
-                                }]
-                        }
-                    })
                     .state('app.marketplace',{
                         url: '/marketplace',
                         template: '<div ui-view></div>'
@@ -228,6 +223,30 @@ angular.module('app')
                             deps: ['$ocLazyLoad',
                                 function( $ocLazyLoad ){
                                     return $ocLazyLoad.load(['js/controllers/marketplaceAddServiceInstanceCtrl.js']);
+                                }]
+                        }
+                    })
+                    .state('app.log',{
+                        url: '/log',
+                        template: '<div ui-view></div>'
+                    })
+                    .state('app.log.list', {
+                        url: '/list',
+                        templateUrl: 'tpl/app_log_list.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function( $ocLazyLoad ){
+                                    return $ocLazyLoad.load(['js/controllers/logListCtrl.js']);
+                                }]
+                        }
+                    })
+                    .state('app.screen',{
+                        url: '/screen',
+                        templateUrl: 'tpl/app_screen_display.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function( $ocLazyLoad ){
+                                    return $ocLazyLoad.load(['js/controllers/screenDisplayCtrl.js']);
                                 }]
                         }
                     })

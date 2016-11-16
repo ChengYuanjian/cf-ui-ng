@@ -26,6 +26,8 @@ angular.module('app', [
     'ui.grid.autoResize',
     'flow',
     'angularSpinner',
+    'ngWebSocket',
+    'angular-echarts',
     // 'spin',
 
     // components
@@ -43,5 +45,6 @@ angular.module('app', [
     'app.marketplace',
     'app.featureFlag',
     'app.buildpack',
-    'app.crypt'
+    'app.crypt',
+    'app.log'
 ]);

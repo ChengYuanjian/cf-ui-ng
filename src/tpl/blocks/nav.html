@@ -21,14 +21,26 @@
     <abn-tree tree-data="mydata"  class="hidden-folded" on-select="my_tree_handler(branch)" select-text="textToSelect"></abn-tree>
     <li ui-sref-active="active">
       <a ui-sref="app.marketplace.list">
-        <i class="glyphicon glyphicon-random icon text-info-dker"></i>
-        <span class="font-bold">服务市场</span>
+        <i class="glyphicon glyphicon-globe icon text-info-dker"></i>
+        <span class="font-bold hidden-folded">服务市场</span>
+      </a>
+    </li>
+    <li ui-sref-active="active">
+      <a ui-sref="app.log.list">
+        <i class="glyphicon glyphicon-book icon text-info-dker"></i>
+        <span class="font-bold hidden-folded">日志管理</span>
       </a>
     </li>
     <li ui-sref-active="active">
       <a ng-click="chgPassword()">
         <i class="glyphicon glyphicon-retweet icon text-info-dker"></i>
-        <span class="font-bold">密码修改</span>
+        <span class="font-bold hidden-folded">密码修改</span>
+      </a>
+    </li>
+    <li ui-sref-active="active">
+      <a ui-sref="app.screen">
+        <i class="glyphicon glyphicon-cloud icon text-info-dker"></i>
+        <span class="font-bold">大屏展示demo</span>
       </a>
     </li>
   </ul>

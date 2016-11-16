@@ -524,7 +524,7 @@ app.controller('OrganizationDetailsCtrl3', ['$rootScope', '$scope', '$modal', '$
         });
 
     };
-    $scope.retrieveRolesOfAllUsersForTheOrganization();
+    // $scope.retrieveRolesOfAllUsersForTheOrganization();
 
     $scope.bindedUserGridOptions = {
         enablePaginationControls: true,

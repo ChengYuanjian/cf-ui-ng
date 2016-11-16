@@ -1,7 +1,9 @@
-<div class="bg-light lter b-b wrapper-md" ng-controller="Appforname">
+<div class="affix affix-top road-top {{app.settings.navbarCollapseColor}} lter wrapper-md " ng-controller="Appforname">
 	<h1 class="m-n font-thin h4" style="vertical-align: middle;">
+		<a ui-sref="app.org_manage.detail({guid:org_guid ,name:organizationName })">{{organizationName}}</a>
+	    <i class="glyphicon glyphicon-chevron-right" ng-show="space_name"></i>
 		<a ng-click="click()">{{space_name}}</a>
-		<i class="glyphicon glyphicon-chevron-right"></i>
+		<i class="glyphicon glyphicon-chevron-right" ng-show="app_name"></i>
 		{{app_name}}
 	</h1>
 </div>
@@ -11,11 +13,11 @@
 		<tab ng-controller="AppDetailCtrl"> <tab-heading>应用信息</tab-heading>
 			<div class='col-sm-6'>
 				<form class="form-horizontal form-validation ng-pristine ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength ng-invalid-validator ng-invalid-b ng-invalid-a ng-valid-pattern">
-					<div class="panel panel-default">
-						<div class="panel-heading">
+					<div class="noborder bg-white panel panel-default">
+						<div class="bg-white bottom-border-only panel-heading">
 							<strong>应用设置</strong>
 						</div>
-						<div class="panel-body">
+						<div class="bg-white  panel-body">
 							<form class="bs-example form-horizontal" name="myForm" novalidate>
 								<div class="form-group">
 									<label class="col-sm-3 control-label">应用名称:</label>
@@ -61,6 +63,24 @@
 										</select>
 									</div>
 								</div>
+								<div flow-init flow-files-added="processFiles($files)">
+									<div class="drop" flow-drop="" ng-class="dropClass" style="padding: 15px;border: 2px #23b7e5 dashed;border-radius: 5px;line-height: 34px;">
+										<span class="btn btn-default" flow-btn="" >上传文件<input type="file"  multiple="multiple" style="visibility: hidden; position: absolute;"></span>
+										<span class="btn btn-default" flow-btn="" flow-directory="" ng-show="$flow.supportDirectory">上传目录<input type="file"  name ="file_name"  multiple="multiple" webkitdirectory="webkitdirectory" style="visibility: hidden; position: absolute;"></span>
+										<b>或者</b>
+										拖拽你的文件到这里
+        									<span class="glyphicon glyphicon-ok form-control-feedback"
+			  								ng-show="myForm.app_file.$dirty && myForm.app_file.$valid"></span>
+									</div>
+									<table>
+										<tr ng-repeat="file in $flow.files">
+											<td>文件{{$index+1}}</td>
+											<td>:{{file.relativePath}}&nbsp;&nbsp;&nbsp;</td>
+											<td>大小:{{file.size}}</td>
+										</tr>
+									</table>
+								</div>
+
 							</form>
 						</div>
 						<footer class="panel-footer text-right bg-light lter">
@@ -73,7 +93,7 @@
 
 			<div class="row">
 				<div class='col-sm-6'>
-					<div class="panel panel-default">
+					<div class="noborder bg-white panel panel-default">
 						<div class="panel-body text-center">
 							<div class="row">
 								<div class="col-sm-2"></div>
@@ -175,8 +195,8 @@
 
 <tab ng-controller="appInstanceInfoCtl" ng-click="getAppInstances()">
 	<tab-heading>实例信息</tab-heading>
-	<div class="panel panel-default">
-		<div class="panel-body b-b b-light">
+	<div class="noborder bg-white panel panel-default">
+		<div class="bg-white bottom-border-only panel-body b-b b-light">
 			<div class="col-sm-5">
 				<button type="submit" class="btn btn-sm btn-warning" ng-click="getAppInstances()">刷新</button>
 			</div>
@@ -186,30 +206,29 @@
 </tab>
 
 <tab ng-controller="appServiceInstanceCtl" >
-			<tab-heading>服务信息</tab-heading>
-	<div class="row">
-		<div class="panel panel-default">
-			<div class="panel-body b-b b-light">
-				<div class="col-sm-4">
-					<button type="submit" class="btn btn-sm btn-info" ng-model="createService"  ng-click="createService()">新增</button>
-					<button type="submit" class="btn btn-sm btn-danger" ng-model="deleteService"  ng-click="deleteService()">删除</button>
-				</div>
-				<div class="col-sm-4">
-				</div>
-				<div class="col-sm-4">
-					<input placeholder="查找服务" class="input-sm form-control" type="text"
-						   ng-model="filter.filterBindedUser"/>    <!--/需要修改-->
-				</div>
+	<tab-heading>服务信息</tab-heading>
+	<div class="noborder bg-white panel panel-default">
+		<div class="bg-white bottom-border-only panel-body b-b b-light">
+			<div class="col-sm-4">
+				<button type="submit" class="btn btn-sm btn-info" ng-model="createService"  ng-click="createService()">新增</button>
+				<button type="submit" class="btn btn-sm btn-danger" ng-model="deleteService"  ng-click="deleteService()">删除</button>
+			</div>
+			<div class="col-sm-4">
+			</div>
+			<div class="col-sm-4">
+				<input placeholder="查找服务" class="input-sm form-control" type="text"
+					   ng-model="filter.filterBindedUser"/>    <!--/需要修改-->
+			</div>
 			</div>
 			<div ui-grid="serviceGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
-		</div>
+		
 	</div>
 		</tab>
 
 <tab ng-controller="appEnvInfoCtl">
 	<tab-heading>环境变量</tab-heading>
-	<div class="panel panel-default">
-		<div class="panel-body b-b b-light">
+	<div class="noborder bg-white panel panel-default">
+		<div class="bg-white bottom-border-only panel-body b-b b-light">
 			<div class="col-sm-5">
 				<button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
 				<button type="submit" class="btn btn-sm btn-danger" ng-click="delete()">-删除</button>
@@ -226,8 +245,8 @@
 
 <tab ng-controller="appRouterGridCtl">
 	<tab-heading>路由信息</tab-heading>
-	<div class="panel panel-default">
-		<div class="panel-body b-b b-light">
+	<div class="noborder bg-white panel panel-default">
+		<div class="bg-white bottom-border-only panel-body b-b b-light">
 			<div class="col-sm-5">
 				<button type="submit" class="btn btn-sm btn-info" ng-click="create()">+创建</button>
 				<button type="submit" class="btn btn-sm btn-danger" ng-click="delete()">-删除</button>

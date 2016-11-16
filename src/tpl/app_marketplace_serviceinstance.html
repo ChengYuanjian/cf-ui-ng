@@ -1,5 +1,5 @@
 <div ng-controller="marketplaceAddServiceInstanceCtrl">
-    <div class="bg-light lter b-b wrapper-md">
+    <div class="affix affix-top road-top {{app.settings.navbarCollapseColor}} lter wrapper-md">
         <h1 class="m-n font-thin h4" style="vertical-align: middle;">
             <a ui-sref="app.marketplace.list">服务市场</a>
             <i class="glyphicon glyphicon-chevron-right"></i>
@@ -8,12 +8,12 @@
         </h1>
     </div>
 
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="wrapper-md">
+    <div class="noborder bg-white panel panel-default">
+        <div class="bg-white bottom-border-only panel-heading">
             添加一个服务实例
         </div>
-        <div class="panel-body b-b b-light">
+        <div class="bg-white panel-body b-b b-light">
             <form class="form-horizontal" name="formAddInstanceService">
                 <div class="form-group" ng-show="showSelectOrganization">
                     <label for="inputOrganization" class="col-sm-3 control-label">选择组织</label>
@@ -68,12 +68,13 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
-                        <button class="btn btn-primary" ng-click="addServiceInstance()"
+                        <button class="btn btn-info" ng-click="addServiceInstance()"
                                 ng-disabled="formAddInstanceService.$invalid">确定
                         </button>
                     </div>
                 </div>
             </form>
         </div>
+    </div>
     </div>
 </div>

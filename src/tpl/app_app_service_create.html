@@ -6,7 +6,11 @@
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-body b-b b-light">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" style="text-align:left">
+                        <label class="i-switch bg-info m-t-xs m-r">
+                            <input type="checkbox" ng-model="isRestart" ng-change="restart()">
+                            <i></i>
+                        </label><span style="position: absolute; top: 5px">重启应用</span>
                     </div>
                     <div class="col-sm-4">
                     </div>

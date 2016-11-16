@@ -1,5 +1,5 @@
 <div ng-controller="marketplaceSelectServicePlanCtrl">
-    <div class="bg-light lter b-b wrapper-md">
+    <div class="affix affix-top road-top {{app.settings.navbarCollapseColor}} lter wrapper-md">
         <h1 class="m-n font-thin h4" style="vertical-align: middle;">
             <a ui-sref="app.marketplace.list">服务市场</a>
             <i class="glyphicon glyphicon-chevron-right"></i>
@@ -7,11 +7,11 @@
         </h1>
     </div>
     <div class="wrapper-md">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="noborder bg-white panel panel-default">
+            <div class="bg-white bottom-border-only panel-heading">
                 请选择一个服务方案
             </div>
-            <div class="panel-body b-b b-light">
+            <div class="bg-white panel-body b-b b-light">
                 <div class="selected-service row">
                     <div class="col-md-4">
                         <img src="{{selectedService.imageUrl}}" alt="{{selectedService.name}}" width="60">
@@ -43,7 +43,7 @@
                                 <ul>
                                     <li ng-repeat="bullet in servicePlan.bullets">{{bullet}}</li>
                                 </ul>
-                                <button class="btn btn-primary" ui-sref="app.marketplace.serviceinstance({serviceId:serviceId,serviceName:serviceName,servicePlanId:servicePlan.id,servicePlanName:servicePlan.name})">选择
+                                <button class="btn btn-info" ui-sref="app.marketplace.serviceinstance({serviceId:serviceId,serviceName:serviceName,servicePlanId:servicePlan.id,servicePlanName:servicePlan.name})">选择
                                     {{servicePlan.name}}
                                 </button>
                             </tab>

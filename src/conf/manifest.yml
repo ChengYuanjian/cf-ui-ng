@@ -1,9 +1,9 @@
 ---
 applications:
-- name: usr-cyj
+- name: usr
   memory: 128M
-  host: usr-cyj
-  path: ../../angular
+  host: usr
+  path: ./
   buildpack: staticfile_buildpack
   env:
     API_ENDPOINT: https://api.truepaas.cn

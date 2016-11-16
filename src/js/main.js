@@ -12,8 +12,8 @@ angular.module('app')
 
       // config
       $scope.app = {
-        name: '楚天云PaaS',
-        version: '2.0.1',
+        name: 'TruePaaS',
+        version: '1.0.0',
         // for chart colors
         color: {
           primary: '#7266ba',
@@ -26,10 +26,10 @@ angular.module('app')
           black:   '#1c2b36'
         },
         settings: {
-          themeID: 1,
-          navbarHeaderColor: 'bg-black',
-          navbarCollapseColor: 'bg-white-only',
-          asideColor: 'bg-black',
+          themeID: 10,
+          navbarHeaderColor:'bg-info dker',
+          navbarCollapseColor:'bg-info dker',
+          asideColor:'bg-black',
           headerFixed: true,
           asideFixed: false,
           asideFolded: false,
@@ -39,11 +39,11 @@ angular.module('app')
       }
 
       // save settings to local storage
-      if ( angular.isDefined($localStorage.settings) ) {
-        $scope.app.settings = $localStorage.settings;
-      } else {
-        $localStorage.settings = $scope.app.settings;
-      }
+      // if ( angular.isDefined($localStorage.settings) ) {
+      //   $scope.app.settings = $localStorage.settings;
+      // } else {
+      //   $localStorage.settings = $scope.app.settings;
+      // }
       $scope.$watch('app.settings', function(){
         if( $scope.app.settings.asideDock  &&  $scope.app.settings.asideFixed ){
           // aside dock and fixed must set the header fixed.

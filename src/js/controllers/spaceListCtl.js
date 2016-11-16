@@ -3,6 +3,7 @@ app.controller('returnToOrg',['$stateParams','$scope','organizationService',
         $scope.orgGuid = $stateParams.orgGuid;
         organizationService.getOrganization($scope.orgGuid).then(function (response) {
             $scope.organizationName = response.data.entity.name;
+            $scope.space_name = $stateParams.spacename;
         });
     }
 ])
@@ -792,7 +793,7 @@ app.controller('BindDialogCtrl', ['$scope', '$modalInstance', '$confirm', '$log'
 }
 ]);
 
-app.controller('spaceServiceInfoCtl', ['$rootScope', '$scope', '$modal', '$log', '$q', '$stateParams', 'organizationService', 'spaceService','serviceService','userService', 'i18nService', 'notificationService', 'dialogs', function ($rootScope, $scope, $modal, $log, $q, $stateParams, organizationService,spaceService,serviceService ,userService, i18nService, notificationService, dialogs) {
+app.controller('spaceServiceInfoCtl', ['$rootScope', '$scope', '$modal', '$log', '$q', '$stateParams', 'organizationService', 'spaceService','serviceService','userService', 'serviceInstanceService','i18nService', 'notificationService','$confirm', 'dialogs', function ($rootScope, $scope, $modal, $log, $q, $stateParams, organizationService,spaceService,serviceService ,userService,serviceInstanceService, i18nService, notificationService, $confirm ,dialogs) {
     i18nService.setCurrentLang("zh-cn");
     $scope.spaceId = $stateParams.guid;
 
@@ -874,18 +875,57 @@ app.controller('spaceServiceInfoCtl', ['$rootScope', '$scope', '$modal', '$log',
 
     $scope.serviceGridOptions.columnDefs = [
         {name: 'serviceInstanceId', displayName: 'Id', visible: false},
-        {name: 'serviceInstanceCredentials', displayName: 'serviceInstanceCredentials', visible: false},
         {name: 'serviceInstanceName', displayName: '服务实例'},
         {name: 'servicePlanName', displayName: '服务方案'},
         {name: 'boundAppCount', displayName: '绑定应用'},
         {name: 'description', displayName: '描述'},
+        {name: 'serviceInstanceCredentials', displayName: '服务证书'},
         {name: 'isFree', displayName: '计费情况'},
         {name: 'id', visible: false, cellTemplate: linkCellTemplate, width: 120, enableSorting: false}
     ];
+
+    $scope.serviceGridOptions.onRegisterApi = function (gridApi) {
+        $scope.gridApi = gridApi;
+    }
 
     $scope.refresh = function () {
         $scope.getServices();
         $scope.serviceGridOptions.data = $scope.services;
     };
+
+    $scope.deleteServiceInstance = function () {
+        if ($scope.gridApi.selection.getSelectedRows().length < 1)
+            notificationService.info('请选择一条记录');
+        else {
+            $confirm({
+                text: '请确认是否删除选择的' + $scope.gridApi.selection.getSelectedRows().length + '个服务实例',
+                title: "确认删除",
+                ok: "确认",
+                cancel: '取消'
+            }).then(function () {
+                var promises = [];
+                angular.forEach($scope.gridApi.selection.getSelectedRows(), function (service, i) {
+                    promises.push($scope.delete(service));
+                });
+                $q.all(promises).then(function () {
+                    $scope.refresh();
+                })
+            });
+        }
+    };
+
+    $scope.delete = function (service) {
+        var defer = $q.defer();
+        serviceInstanceService.deleteServiceInstance(service.serviceInstanceId).then(function (response4)  {
+            notificationService.success('删除服务[' + service.serviceInstanceName + ']成功');
+            defer.resolve();
+        }, function (err, status) {
+            defer.reject();
+            $log.error(err);
+            if (err.data.code)
+                notificationService.error('删除服务[' + service.serviceInstanceName + ']失败,原因是:\n' + err.data.description);
+        });
+        return defer.promise;
+    }
 
 }]);

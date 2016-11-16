@@ -309,7 +309,7 @@ app.controller('LoginCtl', function($q,userService,organizationService,$scope, $
                 //}
                 //跳转到主页面..
                 notificationService.success("登录成功");
-                $state.go('app.dashboard');
+                $state.go('app.org_manage');
 
             });
             deferred.resolve(userGuid);

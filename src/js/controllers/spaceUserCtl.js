@@ -516,7 +516,7 @@ app.controller('bindDialogCtrl', function($scope, $modalInstance, userService,$c
 });
 
 app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$confirm, $modal,spaceService,
-                                          notificationService, $confirm, organizationService,uiGridConstants,applicationService) {
+                                          notificationService, $log, organizationService,uiGridConstants,applicationService,routeService,$timeout) {
 
     //是否显示操作按钮
     var userAuthInfo = JSON.parse(localStorage.getItem('userAuthInfo'));
@@ -653,8 +653,24 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
         {name: 'run_status', displayName: '当前状态'}
     ];
 
+    var rowsRenderedTimeout;
     $scope.gridSpaAppsOptions.onRegisterApi = function (gridApi) {
         $scope.gridSpaAppsOptions = gridApi;
+
+        // ROWS RENDER
+        $scope.gridSpaAppsOptions.core.on.rowsRendered($scope, function () {
+            if (rowsRenderedTimeout) {
+                $timeout.cancel(rowsRenderedTimeout)
+            }
+            rowsRenderedTimeout = $timeout(function () {
+                alignContainers('', $scope.gridSpaAppsOptions.grid);
+            });
+        });
+
+        // SCROLL END
+        $scope.gridSpaAppsOptions.core.on.scrollEnd($scope, function () {
+            alignContainers('', $scope.gridSpaAppsOptions.grid);
+        });
     };
 
     $scope.refresh = function () {
@@ -679,7 +695,7 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
             }
         });
         modalInstance.result.then(function (selectedItem) {
-            $scope.getapp();
+            $scope.refreshAppInfo();
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -698,19 +714,28 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
                 cancel: '取消'
             }).then(function () {
                 angular.forEach($scope.gridSpaAppsOptions.selection.getSelectedRows(), function (apps, i) {
-                    applicationService.deleteApplication(apps.guid).then(function (response4) {
-                        notificationService.success('删除应用[' + apps.name + ']成功');
-                        if (i == $scope.gridSpaAppsOptions.selection.getSelectedRows().length - 1) {
-                            //最后一次刷新应用列表，防止重复刷新
-                            $scope.getapp();
-                        }
-                    }, function (err) {
-                        $log.error(err);
-                        notificationService.error('删除应用[' + apps.name + ']失败,原因是:\n' + err.data.description);
-                    });
-                }, function (err) {
-                    $log.error(err);
-                    notificationService.error('删除应用失败,原因是:\n' + err.data.description);
+                    applicationService.getRoutes(apps.guid).then(function(res){
+                        var data = res.data;
+                        angular.forEach(data.resources,function(route,i){
+                            routeService.deleteRoute(route.metadata.guid).then(function(response){
+                                notificationService.success('删除路由成功')
+                                applicationService.deleteApplication(apps.guid).then(function (response4) {
+                                    notificationService.success('删除应用[' + apps.name + ']成功');
+                                    if (i == $scope.gridSpaAppsOptions.selection.getSelectedRows().length - 1) {
+                                        //最后一次刷新应用列表，防止重复刷新
+                                        $scope.refreshAppInfo();
+                                    }
+                                }, function (err) {
+                                    $log.error(err);
+                                    notificationService.error('删除应用[' + apps.name + ']失败,原因是:\n' + err.data.description);
+                                });
+                            }, function (err) {
+                                $log.error(err);
+                                notificationService.error('删除路由失败,原因是:\n' + err.data.description);
+                            });
+                        })
+                    })
+
                 });
             });
         }

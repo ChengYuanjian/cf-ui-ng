@@ -105,7 +105,7 @@ angular.module('app.application').factory('applicationService', ['$q', '$http', 
   };
   
   var _getServiceBindings = function(id) {
-    
+
     // params
     var url = '/v2/apps/' + id + '/service_bindings';
     var params = {
@@ -125,6 +125,29 @@ angular.module('app.application').factory('applicationService', ['$q', '$http', 
 
     return $http.get(url, config);
   };
+
+
+  var _getRoutes = function(id) {
+
+    // params
+    var url = '/v2/apps/' + id + '/routes';
+    var params = {
+      'inline-relations-depth': 1
+    };
+    // http headers
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+
+    var config = {
+      headers: headers,
+      params: params
+    };
+
+    return $http.get(url, config);
+  };
+
 
   var _createApplication = function(application) {
     
@@ -515,6 +538,7 @@ angular.module('app.application').factory('applicationService', ['$q', '$http', 
   applicationServiceFactory.getAppEvents = _getAppEvents;
   applicationServiceFactory.getEnvironmentVariables = _getEnvironmentVariables;
   applicationServiceFactory.getServiceBindings = _getServiceBindings;
+  applicationServiceFactory.getRoutes = _getRoutes;
   applicationServiceFactory.createApplication = _createApplication;
   applicationServiceFactory.addApplication = _addApplication;
   applicationServiceFactory.editApplication = _editApplication;
