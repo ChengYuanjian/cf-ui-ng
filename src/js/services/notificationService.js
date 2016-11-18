@@ -1,16 +1,17 @@
-angular.module('app').factory('notificationService', function () {
+angular.module('app').factory('notificationService', ['Flash', function (Flash) {
     return {
         success: function (text) {
-            toastr.success(text,"成功");
+            Flash.create('success', text);
+            // toastr.success(text,"成功");
         },
         error: function (text) {
-            toastr.error(text, "错误");
+            Flash.create('danger', text);
         },
         info: function (text) {
-            toastr.info(text, "提示");
+            Flash.create('info', text);
         },
         warning: function (text) {
-          toastr.warning(text, "注意");
+            Flash.create('warning', text);
         }
     };
-});
+}]);

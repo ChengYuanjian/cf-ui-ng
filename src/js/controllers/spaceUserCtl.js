@@ -570,9 +570,13 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
                     _org = resp.data.entity.name;
                     //获取应用路由和域名信息
                     applicationService.getApplicationSummary(appdata.metadata.guid).then(function(resp1){
-                        var router=resp1.data.routes[0].host;
-                        var domain=resp1.data.routes[0].domain.name;
-                        var url=router+'.'+domain;
+                        if(resp1.data.routes.length!=0){
+                            var router=resp1.data.routes[0].host;
+                            var domain=resp1.data.routes[0].domain.name;
+                            var url=router+'.'+domain;
+                        }else{
+                            var url = null;
+                        }
                         var _appdata = {
                             space_guid: appdata.entity.space_guid,
                             guid: appdata.metadata.guid,
@@ -623,7 +627,7 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
         if (newVal == oldVal)
             return;
         $scope.gridSpaAppsOptions.data = $scope.apps.filter(function (data) {
-            if (data.name.toLowerCase().indexOf($scope.filter.filterApp) > -1) {
+            if (data.name.name.toLowerCase().indexOf($scope.filter.filterApp) > -1) {
                 return true;
             }
             else {
@@ -655,27 +659,27 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
 
     var rowsRenderedTimeout;
     $scope.gridSpaAppsOptions.onRegisterApi = function (gridApi) {
-        $scope.gridSpaAppsOptions = gridApi;
+        $scope.gridApi = gridApi;
 
         // ROWS RENDER
-        $scope.gridSpaAppsOptions.core.on.rowsRendered($scope, function () {
+        $scope.gridApi.core.on.rowsRendered($scope, function () {
             if (rowsRenderedTimeout) {
                 $timeout.cancel(rowsRenderedTimeout)
             }
             rowsRenderedTimeout = $timeout(function () {
-                alignContainers('', $scope.gridSpaAppsOptions.grid);
+                alignContainers('', $scope.gridApi.grid);
             });
         });
 
         // SCROLL END
-        $scope.gridSpaAppsOptions.core.on.scrollEnd($scope, function () {
-            alignContainers('', $scope.gridSpaAppsOptions.grid);
+        $scope.gridApi.core.on.scrollEnd($scope, function () {
+            alignContainers('', $scope.gridApi.grid);
         });
     };
 
     $scope.refresh = function () {
         $scope.gridSpaAppsOptions.data = $scope.apps;
-        $scope.gridSpaAppsOptions.core.refresh();
+        $scope.gridApi.core.refresh();
     };
 
     $scope.refreshAppInfo=function(){
@@ -704,16 +708,16 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
 
     $scope.appdelete = function () {
         //添加删除提示
-        if ($scope.gridSpaAppsOptions.selection.getSelectedRows().length < 1)
+        if ($scope.gridApi.selection.getSelectedRows().length < 1)
             notificationService.info('请选择一条记录');
         else {
             $confirm({
-                text: '请确认是否删除选择的' + $scope.gridSpaAppsOptions.selection.getSelectedRows().length + '个应用',
+                text: '请确认是否删除选择的' + $scope.gridApi.selection.getSelectedRows().length + '个应用',
                 title: "确认删除",
                 ok: "确认",
                 cancel: '取消'
             }).then(function () {
-                angular.forEach($scope.gridSpaAppsOptions.selection.getSelectedRows(), function (apps, i) {
+                angular.forEach($scope.gridApi.selection.getSelectedRows(), function (apps, i) {
                     applicationService.getRoutes(apps.guid).then(function(res){
                         var data = res.data;
                         angular.forEach(data.resources,function(route,i){
@@ -721,7 +725,7 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
                                 notificationService.success('删除路由成功')
                                 applicationService.deleteApplication(apps.guid).then(function (response4) {
                                     notificationService.success('删除应用[' + apps.name + ']成功');
-                                    if (i == $scope.gridSpaAppsOptions.selection.getSelectedRows().length - 1) {
+                                    if (i == $scope.gridApi.selection.getSelectedRows().length - 1) {
                                         //最后一次刷新应用列表，防止重复刷新
                                         $scope.refreshAppInfo();
                                     }
@@ -743,24 +747,24 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
 
     $scope.appstart = function () {
         //添加启动提示
-        if ($scope.gridSpaAppsOptions.selection.getSelectedRows().length < 1)
+        if ($scope.gridApi.selection.getSelectedRows().length < 1)
             notificationService.info('请选择一条记录');
         else {
             $confirm({
-                text: '请确认是否启动选择的' + $scope.gridSpaAppsOptions.selection.getSelectedRows().length + '个应用',
+                text: '请确认是否启动选择的' + $scope.gridApi.selection.getSelectedRows().length + '个应用',
                 title: "确认启动",
                 ok: "确认",
                 cancel: '取消'
             }).then(function () {
 
-                angular.forEach($scope.gridSpaAppsOptions.selection.getSelectedRows(), function (apps, i) {
+                angular.forEach($scope.gridApi.selection.getSelectedRows(), function (apps, i) {
                     var editapp = {
                         "id": apps.guid,
                         "state": "STARTED"
                     };
                     applicationService.stateApplication(editapp).then(function (response4) {
                         notificationService.success('启动应用[' + apps.name + ']成功');
-                        if (i == $scope.gridSpaAppsOptions.selection.getSelectedRows().length - 1) {
+                        if (i == $scope.gridApi.selection.getSelectedRows().length - 1) {
                             //最后一次刷新应用列表，防止重复刷新
                             $scope.getApplicationBySpace(spaGuid);
                         }
@@ -779,24 +783,24 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
 
     $scope.appstop = function () {
         //添加停止提示
-        if ($scope.gridSpaAppsOptions.selection.getSelectedRows().length < 1)
+        if ($scope.gridApi.selection.getSelectedRows().length < 1)
             notificationService.info('请选择一条记录');
         else {
             $confirm({
-                text: '请确认是否停止选择的' + $scope.gridSpaAppsOptions.selection.getSelectedRows().length + '个应用',
+                text: '请确认是否停止选择的' + $scope.gridApi.selection.getSelectedRows().length + '个应用',
                 title: "确认启动",
                 ok: "确认",
                 cancel: '取消'
             }).then(function () {
 
-                angular.forEach($scope.gridSpaAppsOptions.selection.getSelectedRows(), function (apps, i) {
+                angular.forEach($scope.gridApi.selection.getSelectedRows(), function (apps, i) {
                     var editapp = {
                         "id": apps.guid,
                         "state": "STOPPED"
                     }
                     applicationService.stateApplication(editapp).then(function (response4) {
                         notificationService.success('停止应用[' + apps.name + ']成功');
-                        if (i == $scope.gridSpaAppsOptions.selection.getSelectedRows().length - 1) {
+                        if (i == $scope.gridApi.selection.getSelectedRows().length - 1) {
                             //最后一次刷新应用列表，防止重复刷新
                             $scope.getApplicationBySpace(spaGuid);
                         }

@@ -4,7 +4,7 @@
         <a ui-sref="app.org_manage.detail({guid:orgGuid ,name:organizationName })">{{name}}</a>
     </h1>
     </div>
-
+    <flash-message></flash-message>
     <div class="bg-white-only row wrapper-sm" style="margin-left: 0px; " ng-controller="OrganizationDetailsCtrl">
         <div class="col-md-4">
             <h2>{{name}}</h2>
@@ -62,8 +62,8 @@
                             </div>
                         </a>
                     </div>
-                    <div ng-show="isorgmanager" class="col-md-4">
-                        <div class="panel panel-default">
+                    <div ng-show="isorgmanager" class="col-md-3">
+                        <div class="panel panel-default custom-panel">
                             <div class="panel-heading font-bold">
                                 新增空间
                             </div>

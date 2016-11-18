@@ -756,8 +756,8 @@ pre {
 }
 
 .modal-header {
-  height: 36px;
-  padding: 9px;
+  height: 50px;
+  padding: 16px;
   background-color: #23b7e5;
   border-radius: 0;
 }
@@ -772,6 +772,7 @@ pre {
 
 .modal-dialog {
   width: 600px;
+  margin: 100px auto;
 }
 
 .modal-footer .btn {
@@ -6093,4 +6094,14 @@ a:hover {
 
 .bg-white {
   background-color: #fff;
+}
+
+.custom-flash {
+  padding: 0;
+  margin: 0;
+}
+
+.custom-flash > .alert-container > .alert {
+  margin: 0;
+  border: 0;
 }

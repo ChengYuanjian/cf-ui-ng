@@ -172,6 +172,7 @@ app.controller('marketplaceAddServiceInstanceCtrl', ['$q', '$rootScope', '$scope
                 notificationService.error('获取服务信息失败:' + response.data.description);
 
             } else {
+                notificationService.success('创建服务实例成功！');
                 if ($scope.applicationId) {
                     $scope.addServiceBinding(response.data.metadata.guid).then(function (response) {
                         notificationService.info('服务绑定成功');

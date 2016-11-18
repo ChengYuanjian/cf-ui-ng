@@ -29,9 +29,9 @@ Thanks to Philip Thrasher for the jquery plugin boilerplate for coffee script
       _this.percentage = 0;
       _this.canvas = $("<canvas width='" + _this.options.size + "' height='" + _this.options.size + "'></canvas>").get(0);
       _this.$el.append(_this.canvas);
-      if (typeof G_vmlCanvasManager !== "undefined" && G_vmlCanvasManager !== null) {
+      /*if (typeof G_vmlCanvasManager !== "undefined" && G_vmlCanvasManager !== null) {
         G_vmlCanvasManager.initElement(_this.canvas);
-      }
+      }*/
       _this.ctx = _this.canvas.getContext('2d');
       if (window.devicePixelRatio > 1) {
         scaleBy = window.devicePixelRatio;

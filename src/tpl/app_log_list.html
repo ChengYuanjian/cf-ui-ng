@@ -59,26 +59,32 @@
         </form>
     </div>
     <!-- <div class="wrapper-sm"> -->
-        <tabset class="tab-container">
-            <tab>
-                <tab-heading>资源信息</tab-heading>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-body b-b b-light">
-                            <!--<label class="i-switch bg-info m-t-xs m-r">-->
-                                <!--<input type="checkbox" ng-model="isShow" ng-change="realshow()">-->
-                                <!--<i></i>-->
-                            <!--</label>-->
-                            <line-chart config="line_config" data="line_data"></line-chart>
-                        </div>
-                        <!--<div echarts="DISTRIBUTION_ID" config="distribution"></div>-->
+    <tabset class="tab-container">
+        <tab>
+            <tab-heading>资源信息</tab-heading>
+            <div class="noborder bg-white panel panel-default">
+                <div class="bg-white bottom-border-only panel-body b-b b-light">
+                    <div class="col-sm-5">
+                        <button type="submit" class="btn btn-sm btn-info"  ng-click="exportAppLog()">导出</button>
+                    </div>
+                </div>
+                <!--<div class="row">-->
+                <!--<div class="panel panel-default">-->
+                <div class="panel-body b-b b-light">
+                    <!--<label class="i-switch bg-info m-t-xs m-r">-->
+                    <!--<input type="checkbox" ng-model="isShow" ng-change="realshow()">-->
+                    <!--<i></i>-->
+                    <!--</label>-->
+                    <line-chart config="line_config" data="line_data"></line-chart>
+                </div>
+                <!--<div echarts="DISTRIBUTION_ID" config="distribution"></div>-->
 
-                        <!--<div ui-jq="plot" ui-options="-->
-              <!--[-->
+                <!--<div ui-jq="plot" ui-options="-->
+                <!--[-->
                 <!--{ data: [[19,17],[18,16],[17,16],[16,16],[15,16],[14,20],[13,19],[12,19],[11,20],[10,15],[9,19],[8,18],[7,21],[6,18],[5,21],[4,18],[3,17],[2,18],[1,17],[0,17]], label: 'CPU', points: { show: true }, lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } },-->
                 <!--{ data: {{memory_data}}, label: 'Memory', points: { show: true }, lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } }-->
-              <!--],-->
-              <!--{-->
+                <!--],-->
+                <!--{-->
                 <!--colors: [ '#23b7e5','#fad733' ],-->
                 <!--series: { shadowSize: 2 },-->
                 <!--xaxis:{ font: { color: '#ccc' } },-->
@@ -86,18 +92,33 @@
                 <!--grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },-->
                 <!--tooltip: true,-->
                 <!--tooltipOpts: { content: '%s of %x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }-->
-              <!--}" style="height:240px" >-->
+                <!--}" style="height:240px" >-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>访问日志</tab-heading>
+            <div class="noborder bg-white panel panel-default">
+                <div class="bg-white bottom-border-only panel-body b-b b-light">
+                    <div class="col-sm-5">
+                        <button type="submit" class="btn btn-sm btn-info"  ng-click="exportHttpLog()">导出</button>
                     </div>
                 </div>
-            </tab>
-            <tab>
-                <tab-heading>访问日志</tab-heading>
                 <div ui-grid="gridOptions1" ui-grid-pagination ui-grid-auto-resize></div>
-            </tab>
-            <tab>
-                <tab-heading>应用日志</tab-heading>
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>应用日志</tab-heading>
+            <div class="noborder bg-white panel panel-default">
+                <div class="bg-white bottom-border-only panel-body b-b b-light">
+                    <div class="col-sm-5">
+                        <button type="submit" class="btn btn-sm btn-info"  ng-click="exportOperLog()">导出</button>
+                    </div>
+                </div>
                 <div ui-grid="gridOptions2" ui-grid-pagination ui-grid-auto-resize></div>
-            </tab>
-        </tabset>
+            </div>
+        </tab>
+    </tabset>
     <!-- </div> -->
 </div>

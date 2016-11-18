@@ -2,6 +2,7 @@
 
 
 angular.module('app', [
+    'ngFlash',
     'ngAnimate',
     'ngCookies',
     'ngResource',

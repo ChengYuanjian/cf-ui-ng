@@ -793,7 +793,7 @@ app.controller('BindDialogCtrl', ['$scope', '$modalInstance', '$confirm', '$log'
 }
 ]);
 
-app.controller('spaceServiceInfoCtl', ['$rootScope', '$scope', '$modal', '$log', '$q', '$stateParams', 'organizationService', 'spaceService','serviceService','userService', 'serviceInstanceService','i18nService', 'notificationService','$confirm', 'dialogs', function ($rootScope, $scope, $modal, $log, $q, $stateParams, organizationService,spaceService,serviceService ,userService,serviceInstanceService, i18nService, notificationService, $confirm ,dialogs) {
+app.controller('spaceServiceInfoCtl', ['$rootScope', '$scope', '$modal', '$log', '$q', '$stateParams', 'organizationService', 'spaceService','serviceService','userService', 'serviceInstanceService','i18nService', 'notificationService','$confirm', 'dialogs','$timeout', function ($rootScope, $scope, $modal, $log, $q, $stateParams, organizationService,spaceService,serviceService ,userService,serviceInstanceService, i18nService, notificationService, $confirm ,dialogs,$timeout) {
     i18nService.setCurrentLang("zh-cn");
     $scope.spaceId = $stateParams.guid;
 
@@ -884,8 +884,26 @@ app.controller('spaceServiceInfoCtl', ['$rootScope', '$scope', '$modal', '$log',
         {name: 'id', visible: false, cellTemplate: linkCellTemplate, width: 120, enableSorting: false}
     ];
 
+    var rowsRenderedTimeout;
     $scope.serviceGridOptions.onRegisterApi = function (gridApi) {
-        $scope.gridApi = gridApi;
+        $scope.serviceGridApi = gridApi;
+    }
+
+    $scope.serviceOptionSelect = function () {
+        // ROWS RENDER
+        $scope.serviceGridApi.core.on.rowsRendered($scope, function () {
+            if (rowsRenderedTimeout) {
+                $timeout.cancel(rowsRenderedTimeout)
+            }
+            rowsRenderedTimeout = $timeout(function () {
+                alignContainers('', $scope.serviceGridApi.grid);
+            });
+        });
+
+        // SCROLL END
+        $scope.serviceGridApi.core.on.scrollEnd($scope, function () {
+            alignContainers('', $scope.serviceGridApi.grid);
+        });
     }
 
     $scope.refresh = function () {
@@ -894,17 +912,17 @@ app.controller('spaceServiceInfoCtl', ['$rootScope', '$scope', '$modal', '$log',
     };
 
     $scope.deleteServiceInstance = function () {
-        if ($scope.gridApi.selection.getSelectedRows().length < 1)
+        if ($scope.serviceGridApi.selection.getSelectedRows().length < 1)
             notificationService.info('请选择一条记录');
         else {
             $confirm({
-                text: '请确认是否删除选择的' + $scope.gridApi.selection.getSelectedRows().length + '个服务实例',
+                text: '请确认是否删除选择的' + $scope.serviceGridApi.selection.getSelectedRows().length + '个服务实例',
                 title: "确认删除",
                 ok: "确认",
                 cancel: '取消'
             }).then(function () {
                 var promises = [];
-                angular.forEach($scope.gridApi.selection.getSelectedRows(), function (service, i) {
+                angular.forEach($scope.serviceGridApi.selection.getSelectedRows(), function (service, i) {
                     promises.push($scope.delete(service));
                 });
                 $q.all(promises).then(function () {

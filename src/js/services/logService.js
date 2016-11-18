@@ -127,6 +127,21 @@ angular.module('app.log').factory('logService', ['$http', function ($http) {
         return $http.get(url, config);
     };
 
+    var _exportHttpsByAppIdAndTime=function(appid, starttime, endtime){
+        var url = '/log/getHttpsByAppIdAndTime/' + appid + '/' + starttime + '/' + endtime+'/export';
+        window.location.href=url;
+    };
+
+    var _exportAppsByAppIdAndTime=function(appid, starttime, endtime){
+        var url = '/log/getAppsByAppIdAndTime/' + appid + '/' + starttime + '/' + endtime+'/export';
+        window.location.href=url;
+    };
+
+    var _exportOpersByAppIdAndTime=function(appid, starttime, endtime){
+        var url = '/log/getOpersByAppIdAndTime/' + appid + '/' + starttime + '/' + endtime+'/export';
+        window.location.href=url;
+    };
+
     logServiceFactory.getAppsByAppIdAndTime = _getAppsByAppIdAndTime;
     logServiceFactory.getAppsBySpaIdAndTime = _getAppsBySpaIdAndTime;
     logServiceFactory.getHttpsByAppIdAndTime = _getHttpsByAppIdAndTime;
@@ -134,6 +149,9 @@ angular.module('app.log').factory('logService', ['$http', function ($http) {
     logServiceFactory.getOpersByAppIdAndTime = _getOpersByAppIdAndTime;
     logServiceFactory.getOpersBySpaIdAndTime = _getOpersBySpaIdAndTime;
     logServiceFactory.getAppsByAppId = _getAppsByAppId;
+    logServiceFactory.exportHttpsByAppIdAndTime=_exportHttpsByAppIdAndTime;
+    logServiceFactory.exportAppsByAppIdAndTime=_exportAppsByAppIdAndTime;
+    logServiceFactory.exportOpersByAppIdAndTime=_exportOpersByAppIdAndTime;
 
     return logServiceFactory;
 }]);

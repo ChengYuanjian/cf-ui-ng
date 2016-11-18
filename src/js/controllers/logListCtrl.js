@@ -83,6 +83,46 @@ app.controller('LogListCtrl', ['$rootScope', '$scope', '$timeout', '$log', '$int
 
     $scope.selected_date = getCurrentDate(1) + " - " + getCurrentDate(0);
 
+
+    $scope.exportHttpLog =function(){
+        var selected_date = angular.element(document.getElementsByName("mydate"))[0].value;
+        if (selected_date) {
+            var arr = selected_date.split(' ');
+            var starttime = arr[0] + ' ' + arr[1];
+            var endtime = arr[3] + ' ' + arr[4];
+
+            if ($scope.selected_app && $scope.selected_app.uid) {
+                logService.exportHttpsByAppIdAndTime($scope.selected_app.uid, starttime, endtime);
+            }
+        }
+    };
+
+    $scope.exportAppLog =function(){
+        var selected_date = angular.element(document.getElementsByName("mydate"))[0].value;
+        if (selected_date) {
+            var arr = selected_date.split(' ');
+            var starttime = arr[0] + ' ' + arr[1];
+            var endtime = arr[3] + ' ' + arr[4];
+
+            if ($scope.selected_app && $scope.selected_app.uid) {
+                logService.exportAppsByAppIdAndTime($scope.selected_app.uid, starttime, endtime);
+            }
+        }
+    };
+
+    $scope.exportOperLog =function(){
+        var selected_date = angular.element(document.getElementsByName("mydate"))[0].value;
+        if (selected_date) {
+            var arr = selected_date.split(' ');
+            var starttime = arr[0] + ' ' + arr[1];
+            var endtime = arr[3] + ' ' + arr[4];
+
+            if ($scope.selected_app && $scope.selected_app.uid) {
+                logService.exportOpersByAppIdAndTime($scope.selected_app.uid, starttime, endtime);
+            }
+        }
+    };
+
     $scope.query = function () {
         $scope.http_list = [];
         $scope.oper_list = [];

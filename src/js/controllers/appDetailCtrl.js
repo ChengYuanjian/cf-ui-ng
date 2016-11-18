@@ -226,7 +226,7 @@ app.controller('Appforname', function($rootScope, $scope,$stateParams,$log,$stat
     });
 });
 
-app.controller('appInstanceInfoCtl', function($rootScope, $scope,i18nService,$filter,$stateParams,$log,applicationService) {
+app.controller('appInstanceInfoCtl', function($rootScope, $scope,i18nService,$filter,$stateParams,$log,applicationService, $timeout) {
     $scope.instances=[];
     $scope.upTime='';
     $scope.lastTime='';
@@ -315,8 +315,24 @@ app.controller('appInstanceInfoCtl', function($rootScope, $scope,i18nService,$fi
         {name: 'status', displayName: '状态'}
     ];
 
+
+
+    var rowsRenderedTimeout;
     $scope.instanceGridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
+        $scope.gridApi.core.on.rowsRendered($scope, function () {
+            if (rowsRenderedTimeout) {
+                $timeout.cancel(rowsRenderedTimeout)
+            }
+            rowsRenderedTimeout = $timeout(function () {
+                alignContainers('', $scope.gridApi.grid);
+            });
+        });
+
+        // SCROLL END
+        $scope.gridApi.core.on.scrollEnd($scope, function () {
+            alignContainers('', $scope.gridApi.grid);
+        });
     };
 
     $scope.refresh = function () {
@@ -329,7 +345,7 @@ app.controller('appInstanceInfoCtl', function($rootScope, $scope,i18nService,$fi
 });
 
 
-app.controller('appRouterGridCtl', function ($rootScope, $scope, i18nService, routeService, spaceService, organizationService, $filter, $stateParams, $log, uiGridConstants, dialogs, $confirm, applicationService, notificationService) {
+app.controller('appRouterGridCtl', function ($rootScope, $scope, i18nService, routeService, spaceService, organizationService, $filter, $stateParams, $log, uiGridConstants, dialogs, $confirm, applicationService, notificationService, $timeout) {
     $scope.space_guid = $stateParams.space_guid;
     $scope.org_guid = $stateParams.org_guid;
     $scope.getAppRouters = function () {
@@ -407,8 +423,22 @@ app.controller('appRouterGridCtl', function ($rootScope, $scope, i18nService, ro
         }
     ];
 
+    var rowsRenderedTimeout;
     $scope.appRouterGridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
+        $scope.gridApi.core.on.rowsRendered($scope, function () {
+            if (rowsRenderedTimeout) {
+                $timeout.cancel(rowsRenderedTimeout)
+            }
+            rowsRenderedTimeout = $timeout(function () {
+                alignContainers('', $scope.gridApi.grid);
+            });
+        });
+
+        // SCROLL END
+        $scope.gridApi.core.on.scrollEnd($scope, function () {
+            alignContainers('', $scope.gridApi.grid);
+        });
     };
 
     $scope.refresh = function () {
@@ -538,7 +568,7 @@ app.controller('RouterCreateCtrl', ['$rootScope', '$scope', 'notificationService
 }]);
 
 
-app.controller('appEnvInfoCtl', function ($rootScope, $confirm,notificationService,$scope, dialogs,i18nService, applicationService, routeService, spaceService, organizationService, $filter, $stateParams, $log) {
+app.controller('appEnvInfoCtl', function ($rootScope, $confirm,notificationService,$scope, dialogs,i18nService, applicationService, routeService, spaceService, organizationService, $filter, $stateParams, $log, $timeout) {
 
     $scope.appenvs = [];
 
@@ -598,8 +628,22 @@ app.controller('appEnvInfoCtl', function ($rootScope, $confirm,notificationServi
         //{name: 'des', displayName: '描述'}
     ];
 
+    var rowsRenderedTimeout;
     $scope.appEnvGridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
+        $scope.gridApi.core.on.rowsRendered($scope, function () {
+            if (rowsRenderedTimeout) {
+                $timeout.cancel(rowsRenderedTimeout)
+            }
+            rowsRenderedTimeout = $timeout(function () {
+                alignContainers('', $scope.gridApi.grid);
+            });
+        });
+
+        // SCROLL END
+        $scope.gridApi.core.on.scrollEnd($scope, function () {
+            alignContainers('', $scope.gridApi.grid);
+        });
     };
 
     $scope.refresh = function () {
@@ -685,8 +729,8 @@ app.controller('appEnvCreCtl', function ($rootScope, $scope, i18nService,$modalI
     };
 });
 
-app.controller('appServiceInstanceCtl', ['$rootScope', '$scope', '$modal', '$log', '$q', '$stateParams','$confirm','applicationService','serviceService','userService', 'i18nService', 'notificationService', 'dialogs','serviceBindingService',
-    function ($rootScope, $scope, $modal, $log, $q, $stateParams,$confirm,applicationService, serviceService ,userService, i18nService, notificationService, dialogs,serviceBindingService) {
+app.controller('appServiceInstanceCtl', ['$rootScope', '$scope', '$modal', '$log', '$q', '$stateParams','$confirm','applicationService','serviceService','userService', 'i18nService', 'notificationService', 'dialogs','serviceBindingService','$timeout',
+    function ($rootScope, $scope, $modal, $log, $q, $stateParams,$confirm,applicationService, serviceService ,userService, i18nService, notificationService, dialogs,serviceBindingService, $timeout) {
         i18nService.setCurrentLang("zh-cn");
         $scope.id = $stateParams.guid;
 
@@ -807,8 +851,23 @@ app.controller('appServiceInstanceCtl', ['$rootScope', '$scope', '$modal', '$log
             {name: 'id', visible: false, cellTemplate: linkCellTemplate, width: 120, enableSorting: false}
         ];
 
+        var rowsRenderedTimeout;
         $scope.serviceGridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
+            $scope.gridApi.core.on.rowsRendered($scope, function () {
+                if (rowsRenderedTimeout) {
+                    $timeout.cancel(rowsRenderedTimeout)
+                }
+                rowsRenderedTimeout = $timeout(function () {
+                    alignContainers('', $scope.gridApi.grid);
+                });
+            });
+
+            // SCROLL END
+            $scope.gridApi.core.on.scrollEnd($scope, function () {
+                alignContainers('', $scope.gridApi.grid);
+            });
+
         }
 
         $scope.refresh = function () {
