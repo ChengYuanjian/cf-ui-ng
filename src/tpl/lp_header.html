@@ -27,7 +27,8 @@
                   <a href="#/access/login">注册</a>
                 </li>
                 <li>
-                  <a href="#/access/login">登录</a>
+                  <!--<a href="#/access/login">登录</a>-->
+                    <a onclick="backToApp()">登录</a>
                 </li>
               </ul>
             <div class="hidden-sm hidden-xs">
@@ -37,3 +38,14 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
+
+<script>
+    var backToApp=function(){
+        if(null!=localStorage.getItem('url')){
+            window.location.href=localStorage.getItem('url');
+            localStorage.removeItem('url');
+        }else{
+            window.location.href='#/access/login';
+        }
+    };
+</script>

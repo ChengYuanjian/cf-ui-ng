@@ -720,24 +720,38 @@ app.controller('spaAppsInfoCtl', function($scope, i18nService,$stateParams,$conf
                 angular.forEach($scope.gridApi.selection.getSelectedRows(), function (apps, i) {
                     applicationService.getRoutes(apps.guid).then(function(res){
                         var data = res.data;
-                        angular.forEach(data.resources,function(route,i){
-                            routeService.deleteRoute(route.metadata.guid).then(function(response){
-                                notificationService.success('删除路由成功')
-                                applicationService.deleteApplication(apps.guid).then(function (response4) {
-                                    notificationService.success('删除应用[' + apps.name + ']成功');
-                                    if (i == $scope.gridApi.selection.getSelectedRows().length - 1) {
-                                        //最后一次刷新应用列表，防止重复刷新
-                                        $scope.refreshAppInfo();
-                                    }
+                        if(data.total_results!=0){
+                            angular.forEach(data.resources,function(route,i){
+                                routeService.deleteRoute(route.metadata.guid).then(function(response){
+                                    notificationService.success('删除路由成功')
+                                    applicationService.deleteApplication(apps.guid).then(function (response4) {
+                                        notificationService.success('删除应用[' + apps.name.name + ']成功');
+                                        if (i == $scope.gridApi.selection.getSelectedRows().length - 1) {
+                                            //最后一次刷新应用列表，防止重复刷新
+                                            $scope.refreshAppInfo();
+                                        }
+                                    }, function (err) {
+                                        $log.error(err);
+                                        notificationService.error('删除应用[' + apps.name.name + ']失败,原因是:\n' + err.data.description);
+                                    });
                                 }, function (err) {
                                     $log.error(err);
-                                    notificationService.error('删除应用[' + apps.name + ']失败,原因是:\n' + err.data.description);
+                                    notificationService.error('删除路由失败,原因是:\n' + err.data.description);
                                 });
+                            })
+                        }else{
+                            applicationService.deleteApplication(apps.guid).then(function (response4) {
+                                notificationService.success('删除应用[' + apps.name.name + ']成功');
+                                if (i == $scope.gridApi.selection.getSelectedRows().length - 1) {
+                                    //最后一次刷新应用列表，防止重复刷新
+                                    $scope.refreshAppInfo();
+                                }
                             }, function (err) {
                                 $log.error(err);
-                                notificationService.error('删除路由失败,原因是:\n' + err.data.description);
+                                notificationService.error('删除应用[' + apps.name.name + ']失败,原因是:\n' + err.data.description);
                             });
-                        })
+                        }
+
                     })
 
                 });

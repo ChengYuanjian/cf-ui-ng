@@ -6,8 +6,8 @@
  */
 
 
-app.controller('AppCreateCtrl', ['$scope', '$modal', '$log', '$confirm', '$stateParams', 'messageService', 'applicationService', 'notificationService', 'uiGridConstants',
-    function ($scope, $modal, $log, $confirm, $stateParams, messageService, applicationService, notificationService, uiGridConstants) {
+app.controller('$q','AppCreateCtrl', ['$scope', '$modal', '$log', '$confirm', '$stateParams', 'messageService', 'applicationService', 'notificationService', 'uiGridConstants',
+    function ($q,$scope, $modal, $log, $confirm, $stateParams, messageService, applicationService, notificationService, uiGridConstants) {
         $scope.create = function () {
             var modalInstance = $modal.open({
                 templateUrl: 'tpl/app_app_create.html',
@@ -41,23 +41,17 @@ app.controller('AppCreateCtrl', ['$scope', '$modal', '$log', '$confirm', '$state
                     ok: "确认",
                     cancel: '取消'
                 }).then(function () {
-
+                    var promises = [];
                     angular.forEach($scope.gridApi.selection.getSelectedRows(), function (apps, i) {
                         var editapp = {
                             "id": apps.guid,
                             "state": "STARTED"
                         }
-                        applicationService.stateApplication(editapp).then(function (response4) {
-                            notificationService.success('启动应用[' + apps.name + ']成功');
-                            if (i == $scope.gridApi.selection.getSelectedRows().length - 1) {
-                                //最后一次刷新应用列表，防止重复刷新
-                                $scope.getapp();
-                            }
-                        }, function (err) {
-                            $log.error(err);
-                            notificationService.error('启动应用[' + apps.name + ']失败,原因是:\n' + err.data.description);
-                        });
+                        promises.push($scope.updateStateOfApp(editapp));
 
+                        $q.all(promises).then(function(){
+                            $scope.getapp();
+                        });
                     }, function (err) {
                         $log.error(err);
                         notificationService.error('启动应用失败,原因是:\n' + err.data.description);
@@ -65,27 +59,18 @@ app.controller('AppCreateCtrl', ['$scope', '$modal', '$log', '$confirm', '$state
                 });
             }
 
-            //angular.forEach($scope.gridApi.selection.getSelectedRows(), function (apps, i) {
-            //    var editapp = {
-            //        "id": apps.guid,
-            //        "state":"STARTED"
-            //    }
-            //    applicationService.stateApplication(editapp).then(function (response4) {
-            //        var  isApp = true;
-            //        $scope.refresh();
-            //    }, function (err) {
-            //        $log.error(err);
-            //        /!*  $scope.falsedelete(iscreateRoute, isrouteApp, isApp);*!/
-            //        messageService.addMessage('danger', '应用：' + apps.name + '启动失败！');
-            //     /*   $modalInstance.close();*/
-            //    });
-            //
-            //}, function (err) {
-            //    $log.error(err);
-            //    /*   $modalInstance.close();*/
-            //});
-
         };
+
+        $scope.updateStateOfApp = function(editapp){
+            var defer = $q.defer();
+            applicationService.stateApplication(editapp).then(function(response){
+                defer.resolve();
+            },function (err) {
+                defer.reject();
+                    $log.error(err);
+                });
+            return defer.promise;
+        }
 
         $scope.appstop = function () {
             //添加停止提示

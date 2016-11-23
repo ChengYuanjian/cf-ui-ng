@@ -4,8 +4,103 @@ app.controller('LoginCtl', function($q,userService,organizationService,$scope, $
         password: ''
     };
 
+    $scope.code='' ; //在全局定义验证码
+    $scope.validation='';
+//产生验证码
+    $scope.createCode=function(){
+        var _code='';
+        var codeLength = 4;//验证码的长度
+        //var checkCode = document.getElementById("code");
+        var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+            'S','T','U','V','W','X','Y','Z');//随机数
+        for(var i = 0; i < codeLength; i++) {//循环操作
+            var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）
+            _code += random[index];//根据索引取得随机数加到code上
+        }
+        $scope.code=_code;
+    };
+
+    //初始加载验证码
+    window.onload =$scope.createCode();
+
+//校验验证码
+    $scope.validate=function(){
+        var inputCode = $scope.validation; //取得输入的验证码并转化为大写
+        if(inputCode.length <= 0) { //若输入的验证码长度为0
+            //则弹出请输入验证码
+            alert("请输入验证码! ");
+            //notificationService.warning("请输入验证码! ");
+            return false;
+
+        }
+        else if(inputCode.toUpperCase() != $scope.code ) { //若输入的验证码与产生的验证码不一致时
+            alert("验证码输入错误! ");
+            //notificationService.error("验证码输入错误! "); //则弹出验证码输入错误
+            $scope.createCode();//刷新验证码
+            $scope.validation = '';//清空文本框
+            return false;
+        }
+        else { //输入正确时
+            return true;
+        }
+    };
+
+    //记住账号密码相关代码
+    $scope.addCookie = function (name,value,days,path)
+    {
+        var expires = new Date();
+        expires.setTime(expires.getTime() + days * 3600000 * 24);
+        path = path == "" ? "" : ";path=" + path;
+        var _expires = (typeof days) == "string" ? "" : ";expires=" + expires.toUTCString();
+        document.cookie = name + "=" + value + _expires + path;
+    };
+    $scope.getCookieValue = function (name)
+    {
+        var allcookies = document.cookie;
+        name += "=";
+        var pos = allcookies.indexOf(name);
+        if (pos != -1){
+            var start = pos + name.length;
+            var end = allcookies.indexOf(";",start);
+            if (end == -1) end = allcookies.length;
+            var value = allcookies.substring(start,end);
+            return (value);
+        }else{
+            return "";
+        }
+    };
+    $scope.deleteCookie =function(name,path)
+    {
+        var expires = new Date(0);
+        path = path == "" ? "" : ";path=" + path;
+        document.cookie = name + "="+ ";expires=" + expires.toUTCString() + path;
+    };
+    //checkbox代码
+    $scope.updateSelection = function($event){
+        var checkbox = $event.target ;
+        var checked = checkbox.checked ;
+        if(checked){
+            $scope.addCookie("userName",$scope.loginData.userName,7,"/");
+            $scope.addCookie("userPass",$scope.loginData.password,7,"/");
+        }else{
+            $scope.deleteCookie("userName");
+            $scope.deleteCookie("userPass");
+        }
+    } ;
+
+    $scope.loginData.userName= $scope.getCookieValue("userName");
+    $scope.loginData.password=$scope.getCookieValue("userPass");
+
     authService.logout();
     $scope.login = function() {
+
+        //验证码验证
+        var isValid=new Boolean(false);
+        isValid=$scope.validate();
+        if(!isValid){
+            return;
+        }
+
         authService.logout();
         authService.login($scope.loginData).then(function(response) {
                 //获取用户组织和空间权限信息

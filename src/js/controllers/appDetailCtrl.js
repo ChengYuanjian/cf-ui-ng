@@ -949,7 +949,7 @@ app.controller('appServiceInstanceCtl', ['$rootScope', '$scope', '$modal', '$log
 
     }]);
 
-app.controller('appServiceCreateCtl', function ($rootScope, $scope, i18nService,$modalInstance, applicationService,notificationService,spaceService,serviceService,serviceBindingService,$log,data) {
+app.controller('appServiceCreateCtl', function ($q,$rootScope, $scope, i18nService,$modalInstance, applicationService,notificationService,spaceService,serviceService,serviceBindingService,$log,data) {
     i18nService.setCurrentLang("zh-cn");
     var envinfo={};
 
@@ -970,21 +970,60 @@ app.controller('appServiceCreateCtl', function ($rootScope, $scope, i18nService,
         if ($scope.gridApi.selection.getSelectedRows().length < 1)
             notificationService.info('请选择一条记录');
         else {
+                var promises =[];
                 angular.forEach($scope.gridApi.selection.getSelectedRows(), function (service, i) {
-                    serviceBindingService.addServiceBinding(service).then(function(resp){
-                        notificationService.success('绑定服务[' + service.serviceInstanceName + ']成功');
-                        $modalInstance.close($scope.restartApp);
+                    promises.push($scope.bindService(service));
+                    /*serviceBindingService.addServiceBinding(service).then(function(resp){
+                        notificationService.success('绑定服务[' + service.serviceInstanceName + ']成功')
+
                     }, function (err, status) {
                         defer.reject();
                         $log.error(err);
                         if (err.data.code)
                             notificationService.error('绑定服务[' + service.serviceInstanceName + ']失败,原因是:\n' + err.data.description);
                             $modalInstance.dismiss();
+                    })*/
+                    $q.all(promises).then(function(){
+                        $modalInstance.close($scope.restartApp);
                     })
                 });
         }
 
     };
+
+
+    $scope.bindService = function (service) {
+        var defer = $q.defer();
+        serviceBindingService.addServiceBinding(service).then(function(resp){
+            notificationService.success('绑定服务[' + service.serviceInstanceName + ']成功');
+            defer.resolve();
+        },function (err) {
+            notificationService.error('绑定服务[' + service.serviceInstanceName + ']失败,原因是:\n' + err.data.description);
+            defer.reject();
+            $modalInstance.dismiss();
+            $log.error(err);
+        });
+            return defer.promise;
+    }
+
+
+    /*function bindService(service){
+        var defer = $q.defer();
+        var promise = defer.promise;
+        serviceBindingService.addServiceBinding(service).then(function(resp){
+            notificationService.success('绑定服务[' + service.serviceInstanceName + ']成功');
+            defer.resolve();
+        },function (err) {
+            notificationService.error('绑定服务[' + service.serviceInstanceName + ']失败,原因是:\n' + err.data.description);
+            defer.reject();
+            $modalInstance.dismiss();
+            $log.error(err);
+        });
+        promise.then(function(){
+            return promise;
+        })
+
+    }*/
 
 
     $scope.getServices = function(){

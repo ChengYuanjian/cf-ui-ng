@@ -27,12 +27,22 @@
                     <input class="password optional form-control" placeholder="密码" type="password" required ng-model="loginData.password">
                   </div>
                 </div>
+
+                <div>
+                  <div class="form-group validation optional user_validation">
+                    <input type="text" style="vertical-align:middle"
+                           class="form-control input-md w-sm inline m-r" ng-model="validation" placeholder="请输入验证码">
+                    <button type="button" style="vertical-align:middle"
+                            class="btn btn-md btn-info" id="createCode" ng-click="createCode()">{{code}}</button>
+                  </div>
+                </div>
+
                 <div>
                   <div class="form-group boolean optional user_remember_me">
                     <div class="checkbox">
                       <input value="0" type="hidden" name="user[remember_me]">
                       <label>
-                        <input class="boolean optional" type="checkbox"> 记住我
+                        <input class="boolean optional" type="checkbox" ng-model="remember_me" ng-click="updateSelection($event)"> 记住我
                       </label>
                     </div>
                   </div>
