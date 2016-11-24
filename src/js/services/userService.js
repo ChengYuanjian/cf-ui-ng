@@ -3,6 +3,12 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
 
   var userAuthInfo;
 
+  var UAA_API;
+
+  $http.get('/info').success(function(response) {
+    UAA_API = response.token_endpoint;
+  });
+
   var _setUserAuthInfo=function(_userAuthInfo){
     userAuthInfo=_userAuthInfo;
   };
@@ -79,15 +85,11 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
 
   var _deleteUaaUser=function(user){
     var url='/Users/'+user.guid;
-    $http.get('/info').success(function(response) {
-      UAA_Endpoint = response.token_endpoint;
-    });
-
     // http headers
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-UAA-Endpoint': UAA_Endpoint,
+      'X-UAA-Endpoint': UAA_API,
       'myurl':'/'+user.guid
     };
 
@@ -117,9 +119,6 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
   //update uaa user
   var _updateUaaUser=function(uaaUser){
     var url='/Users/'+uaaUser.guid;
-    $http.get('/info').success(function(response) {
-      UAA_Endpoint = response.token_endpoint;
-    });
     // data
     var data={
       userName:uaaUser.username,
@@ -132,7 +131,7 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
       'If-Match':'*',
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-UAA-Endpoint': UAA_Endpoint,
+      'X-UAA-Endpoint': UAA_API,
       'myurl':'/'+uaaUser.guid
     };
 
@@ -144,9 +143,6 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
 
   var _addUaaUser=function(uaaUser){
     var url='/Users';
-    $http.get('/info').success(function(response) {
-      UAA_Endpoint = response.token_endpoint;
-    });
     // data
     var data={
       userName:uaaUser.username,
@@ -159,7 +155,7 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-UAA-Endpoint': UAA_Endpoint,
+      'X-UAA-Endpoint': UAA_API,
       'myurl':''
     };
 
@@ -465,13 +461,10 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
 
   var _getAllUaaUsers1=function(){
     var url='/Users';
-    $http.get('/info').success(function(response) {
-      UAA_Endpoint = response.token_endpoint;
-    });
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-UAA-Endpoint': UAA_Endpoint,
+      'X-UAA-Endpoint': UAA_API,
       'myurl':''
       //'myurl':'?attributes=id,userName,emails,phoneNumbers,meta'
     };
@@ -489,13 +482,10 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
 
   var _getAllUaaUsers=function(){
     var url='/Users';
-    $http.get('/info').success(function(response) {
-      UAA_Endpoint = response.token_endpoint;
-    });
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-UAA-Endpoint': UAA_Endpoint,
+      'X-UAA-Endpoint': UAA_API,
       'myurl':''
     };
 
@@ -511,13 +501,10 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
 
   var _getUaaUser=function(id){
     var url='/Users';
-    $http.get('/info').success(function(response) {
-      UAA_Endpoint = response.token_endpoint;
-    });
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-UAA-Endpoint': UAA_Endpoint,
+      'X-UAA-Endpoint': UAA_API,
       'myurl':''
       //'myurl':'?attributes=id,userName,emails,phoneNumbers,meta&filter=id eq \''+id+'\''
     };
@@ -535,13 +522,10 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
 
   var _changeUserPassword=function(user){
     var url='/Users/'+user.guid+'/password';
-    $http.get('/info').success(function(response) {
-      UAA_Endpoint = response.token_endpoint;
-    });
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-UAA-Endpoint': UAA_Endpoint,
+      'X-UAA-Endpoint': UAA_API,
       'myurl':'/'+user.guid+'/password'
     };
 
@@ -561,9 +545,6 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
 
   var _changeUserPassword1=function(uaaUser){
     var url='/Users/'+uaaUser.guid;
-    $http.get('/info').success(function(response) {
-      UAA_Endpoint = response.token_endpoint;
-    });
     // data
     var data={
       password:uaaUser.password
@@ -573,7 +554,7 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
       'If-Match':'*',
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-UAA-Endpoint': UAA_Endpoint,
+      'X-UAA-Endpoint': UAA_API,
       'myurl':'/'+uaaUser.guid
     };
 
@@ -587,7 +568,8 @@ angular.module('app.user').factory('userService', ['$http', function($http) {
     var url='/userinfo';
     var headers = {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-UAA-Endpoint': UAA_API
     };
     var config = {
       headers: headers

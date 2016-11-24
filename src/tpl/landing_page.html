@@ -4,12 +4,12 @@
     <!-- Note: The background image is set within the business-casual.css file. -->
     <header class="header-bg">
         <div class="business-header">
-        <div class="tagline">
+        <div ng-controller="BackToAppController" class="tagline">
             <h1>加速您的应用上线</h1>
             <h2>应用编译、测试、部署这样简单的事情交给TruePaaS，多点时间留给生活！</h2>
             <div>
                 <!--<a href="#/access/login">立刻体验</a>-->
-                <a onclick="backToApp()">立刻体验</a>
+                <a ng-click="backToApp()">立刻体验</a>
             </div>
         </div>
         </div>
@@ -166,15 +166,3 @@
         </div>
         </div>
     </div>
-
-
-<script>
-    var backToApp=function(){
-        if(null!=localStorage.getItem('url')){
-            window.location.href=localStorage.getItem('url');
-            localStorage.removeItem('url');
-        }else{
-            window.location.href='#/access/login';
-        }
-    };
-</script>

@@ -54,6 +54,12 @@ angular.module('app')
                     .state('access.index', {
                         url: '/index',
                         templateUrl: 'tpl/landing_page.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function( $ocLazyLoad ){
+                                    return $ocLazyLoad.load(['js/controllers/indexCtl.js']);
+                                }]
+                        }
         
                     })
                     .state('app', {

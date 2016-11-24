@@ -14,21 +14,24 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse" id="bs-example-navbar-collapse-1">
+            <div ng-controller="VisibleController" class="collapse navbar-collapse navbar-ex1-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-left navbar-link">
                 <li><a href="#">文档</a></li>
                 <li><a href="#">下载</a></li>
               </ul>
-              <ul class="nav navbar-nav navbar-right">
+              <ul ng-controller="BackToAppController" class="nav navbar-nav navbar-right">
               <li>
                 <a class="lp-action btn sm" href="#">私有平台</a>
               </li>
                 <li>
-                  <a href="#/access/login">注册</a>
+                  <a ng-show="visible" ng-click="backToApp()">控制台</a>
+                </li>
+                <li>
+                  <a ng-hide="visible" href="#/access/login">注册</a>
                 </li>
                 <li>
                   <!--<a href="#/access/login">登录</a>-->
-                    <a onclick="backToApp()">登录</a>
+                    <a ng-hide="visible" ng-click="backToApp()">登录</a>
                 </li>
               </ul>
             <div class="hidden-sm hidden-xs">
@@ -38,14 +41,3 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
-
-<script>
-    var backToApp=function(){
-        if(null!=localStorage.getItem('url')){
-            window.location.href=localStorage.getItem('url');
-            localStorage.removeItem('url');
-        }else{
-            window.location.href='#/access/login';
-        }
-    };
-</script>

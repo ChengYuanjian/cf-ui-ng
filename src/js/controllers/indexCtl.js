@@ -1,0 +1,19 @@
+//document.getElementById("console").style.display="none";
+//document.getElementById("console").style.display="block";
+app.controller('VisibleController',function($scope){
+    if(localStorage.getItem('url')){
+        $scope.visible=true;
+    }else{
+        $scope.visible=false;
+    }
+});
+
+app.controller('BackToAppController',function($scope){
+    $scope.backToApp=function(){
+        if(localStorage.getItem('url')){
+            window.location.href=localStorage.getItem('url');
+        }else{
+            window.location.href='#/access/login';
+        }
+    };
+});

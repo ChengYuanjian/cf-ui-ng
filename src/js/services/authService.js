@@ -6,6 +6,7 @@ angular.module('app.auth').factory('authService', ['$http', '$log', '$q', '$inje
     userName: ''
   };
 
+  var UAA_Endpoint;
   $http.get('/info').success(function(response) {
     UAA_Endpoint = response.authorization_endpoint;
   });
